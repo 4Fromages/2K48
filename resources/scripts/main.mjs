@@ -13,7 +13,6 @@ window.addEventListener("load", e => {
     }
 
     window.addEventListener("keydown", e => {
-        let swipeStrategy = null
         switch (e.key) {
             case "ArrowUp":    game.swipeUp();    break;
             case "ArrowDown":  game.swipeDown();  break;

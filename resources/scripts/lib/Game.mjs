@@ -1,16 +1,16 @@
 import { Case } from "./Case.mjs"
 import { Tile } from "./Tile.mjs"
-import { SwipeDownStrategy } from "./swipes/SwipeDownStrategy.mjs"
-import { SwipeLeftStrategy } from "./swipes/SwipeLeftStrategy.mjs"
-import { SwipeRightStrategy } from "./swipes/SwipeRightStrategy.mjs"
-import { SwipeStrategy } from "./swipes/SwipeStrategy.mjs"
-import { SwipeUpStrategy } from "./swipes/SwipeUpStrategy.mjs"
+import { MoveDownStrategy } from "./moves/MoveDownStrategy.mjs"
+import { MoveLeftStrategy } from "./moves/MoveLeftStrategy.mjs"
+import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
+import { MoveStrategy } from "./moves/MoveStrategy.mjs"
+import { MoveUpStrategy } from "./moves/MoveUpStrategy.mjs"
 
 export class Game {
     #grid = new Array()
     #size = 4
     #power = 2048
-    #swipeStrategy = null
+    #moveStrategy = null
 
     constructor(size = 4, power = 2048) {
         this.#size = size
@@ -54,56 +54,56 @@ export class Game {
     }
 
     /**
-     * Returns the current swipe state
-     * @returns {SwipeStrategy}
+     * Returns the current move state
+     * @returns {MoveStrategy}
      */
-    getSwipeStrategy() {
-        return this.#swipeStrategy
+    getMoveStrategy() {
+        return this.#moveStrategy
     }
 
     /**
-     * Set the specified swipe state
-     * @param {SwipeStrategy} swipeStrategy
+     * Set the specified move state
+     * @param {MoveStrategy} moveStrategy
      */
-    setSwipeStrategy(swipeStrategy) {
-        this.#swipeStrategy = swipeStrategy
+    setMoveStrategy(moveStrategy) {
+        this.#moveStrategy = moveStrategy
     }
 
     /**
      * Does a swipe up move
      */
     swipeUp() {
-        this.setSwipeStrategy(new SwipeUpStrategy(this))
-        this.#swipe()
+        this.setMoveStrategy(new MoveUpStrategy(this))
+        this.#move()
     }
 
     /**
      * Does a swipe down move
      */
     swipeDown() {
-        this.setSwipeStrategy(new SwipeDownStrategy(this))
-        this.#swipe()
+        this.setMoveStrategy(new MoveDownStrategy(this))
+        this.#move()
     }
 
     /**
      * Does a swipe left move
      */
     swipeLeft() {
-        this.setSwipeStrategy(new SwipeLeftStrategy(this))
-        this.#swipe()
+        this.setMoveStrategy(new MoveLeftStrategy(this))
+        this.#move()
     }
 
     /**
      * Does a swipe right move
      */
     swipeRight() {
-        this.setSwipeStrategy(new SwipeRightStrategy(this))
-        this.#swipe()
+        this.setMoveStrategy(new MoveRightStrategy(this))
+        this.#move()
     }
 
-    #swipe() {
-        if (this.getSwipeStrategy().hasSwipeableTiles()) {
-            this.getSwipeStrategy().swipe()
+    #move() {
+        if (this.getMoveStrategy().hasMoveableTiles()) {
+            this.getMoveStrategy().move()
             this.spawnTile()
             this.#setTilesSwipable()
         }
