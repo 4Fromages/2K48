@@ -11,6 +11,12 @@ export class Game {
         this.#grid = new Grid(size, base)
     }
 
+    start() {
+        this.#grid.clear()
+        this.#grid.spawnTile()
+        this.#grid.spawnTile()
+    }
+
     /**
      * Does a swipe up move
      */
@@ -37,24 +43,6 @@ export class Game {
      */
     swipeRight() {
         this.#grid.move(new MoveRightStrategy(this.#grid))
-    }
-
-    slideTiles(startCase, endCase) {
-        if (!startCase.isEmpty() && endCase.isEmpty()) {
-            const tile = startCase.unsetTile()
-            endCase.set(tile)
-        }
-    }
-
-    collideTiles(startCase, endCase) {
-        if (
-            !startCase.isEmpty() &&
-            !endCase.isEmpty() &&
-            endCase.getTile().isMergeable(startCase.getTile)
-        ) {
-            const tile = startCase.unsetTile()
-            endCase.getTile().merge(tile)
-        }
     }
 
     toString() {

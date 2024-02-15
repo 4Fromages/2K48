@@ -15,7 +15,12 @@ export class Tile {
     }
 
     isMergeableWith(tile) {
-        return typeof this.#value == "number" && this.#value === tile.getValue()
+        return (
+            !this.hasJustMerged &&
+            !tile.hasJustMerged &&
+            typeof this.#value === "number" &&
+            this.#value === tile.getValue()
+        )
     }
 
     merge(tile) {

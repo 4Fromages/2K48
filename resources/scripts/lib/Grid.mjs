@@ -1,6 +1,10 @@
 import { Case } from "./Case.mjs"
 import { Tile } from "./Tile.mjs"
+import { MoveDownStrategy } from "./moves/MoveDownStrategy.mjs"
+import { MoveLeftStrategy } from "./moves/MoveLeftStrategy.mjs"
+import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
 import { MoveStrategy } from "./moves/MoveStrategy.mjs"
+import { MoveUpStrategy } from "./moves/MoveUpStrategy.mjs"
 
 export class Grid {
     #size
@@ -58,42 +62,6 @@ export class Grid {
     }
 
     /**
-     * Returns the case above from the specified coordonates
-     * @param {Case} case_
-     * @returns {Case}
-     */
-    getCaseAbove(case_) {
-        if (case_ === null) return null
-        const x = case_.getX()
-        const y = case_.getY()
-        return this.getCase(x, y - 1)
-    }
-
-    /**
-     * Returns the case below from the specified coordonates
-     * @param {Case} case_
-     * @returns {Case}
-     */
-    getCaseBelow(case_) {
-        if (case_ === null) return null
-        const x = case_.getX()
-        const y = case_.getY()
-        return this.getCase(x, y + 1)
-    }
-
-    /**
-     * Returns the left case from the specified coordonates
-     * @param {Case} case_
-     * @returns {Case}
-     */
-    getLeftCase(case_) {
-        if (case_ === null) return null
-        const x = case_.getX()
-        const y = case_.getY()
-        return this.getCase(x - 1, y)
-    }
-
-    /**
      * Returns the right case from the specified coordonates
      * @param {Case} case_
      * @returns {Case}
@@ -110,26 +78,41 @@ export class Grid {
      * @returns {Case}
      */
     getRandomEmptyCase() {
-        const emptyCasesCoores = this.getEmptyCasesCoords()
-        if (emptyCasesCoores.length == 0) {
+        const emptyCases = this.getEmptyCases()
+        if (emptyCases.length == 0) {
             return null
         } else {
-            const randomIndex = Math.floor(
-                Math.random() * emptyCasesCoores.length
-            )
-            const [x, y] = emptyCasesCoores[randomIndex]
-            return this.getCase(x, y)
+            const randomIndex = Math.floor(Math.random() * emptyCases.length)
+            const randomCase = emptyCases[randomIndex]
+            return randomCase
         }
     }
 
     /**
-     * Creates a new tile with a random low value (for exemple, 2 or 4), and sets it in the grid on an empty case
+     * Returns an array of all case with no tile
+     * @returns {Case[]}
+     */
+    getEmptyCases() {
+        const out = new Array()
+        for (let x = 0; x < this.getSize(); x++) {
+            for (let y = 0; y < this.getSize(); y++) {
+                const currentCase = this.getCase(x, y)
+                if (currentCase.isEmpty()) {
+                    out.push(currentCase)
+                }
+            }
+        }
+        return out
+    }
+
+    /**
+     * Creates a new tile with a random low value (for exemple, 2 or 4),
+     * and sets it in the grid on an empty case,
+     * if there is at least one empty case in the grid
      */
     spawnTile() {
-        const randomEmptyCase = this.getRandomEmptyCase()
-        if (randomEmptyCase == null) {
-            // TODO
-        } else {
+        if (this.hasEmptyCases()) {
+            const randomEmptyCase = this.getRandomEmptyCase()
             randomEmptyCase.setTile(Tile.generateRandomLowTile())
         }
     }
@@ -140,8 +123,13 @@ export class Grid {
      * @returns {boolean}
      */
     isGameLost() {
-        return this.isEmptyCases()
-        // TODO
+        const moveStrategies = [
+            new MoveUpStrategy(this),
+            new MoveDownStrategy(this),
+            new MoveLeftStrategy(this),
+            new MoveRightStrategy(this),
+        ]
+        return !this.hasEmptyCases() && moveStrategies.some(strategy => !strategy.hasShiftableTiles())
     }
 
     /**
@@ -154,7 +142,10 @@ export class Grid {
         for (let x = 0; x < this.getSize(); x++) {
             for (let y = 0; y < this.getSize(); y++) {
                 const c = this.getCase(x, y)
-                if (c.getTile() != null && c.getCase().value >= this.#objective) {
+                if (
+                    c.getTile() != null &&
+                    c.getCase().value >= this.#objective
+                ) {
                     return true
                 }
             }
@@ -171,23 +162,38 @@ export class Grid {
     #isValidCoords(x, y) {
         return x >= 0 && x < this.#size && y >= 0 && y < this.#size
     }
-    
+
     #setTilesSwipable() {
-        this.forEach((c) => {
-            const tile = c.getTile()
-            if (tile !== null) tile.hasJustMerged = false
-        })
+        for (let x = 0; x < this.getSize(); x++) {
+            for (let y = 0; y < this.getSize(); y++) {
+                const currentCase = this.getCase(x, y)
+                const tile = currentCase.getTile()
+                if (tile !== null) tile.hasJustMerged = false
+            }
+        }
     }
 
     /**
      * Does a move with the specified strategy
-     * @param {MoveStrategy} moveStrategy 
+     * @param {MoveStrategy} moveStrategy
      */
     move(moveStrategy) {
-        if (moveStrategy.hasMoveableTiles()) {
-            moveStrategy.move()
+        if (moveStrategy.hasShiftableTiles()) {
+            moveStrategy.shift()
             this.spawnTile()
             this.#setTilesSwipable()
+        }
+    }
+
+    /**
+     * Removes all the tile from the grid
+     */
+    clear() {
+        for (let x = 0; x < this.getSize(); x++) {
+            for (let y = 0; y < this.getSize(); y++) {
+                const currentCase = this.getCase(x, y)
+                currentCase.unsetTile()
+            }
         }
     }
 

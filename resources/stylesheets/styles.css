@@ -2,7 +2,7 @@
 @import "./reset.css";
 
 pre {
-    margin: 150px;
+    margin: 50px;
     text-align: center;
     font-family: monospace;
 }

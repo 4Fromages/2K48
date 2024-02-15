@@ -3,8 +3,7 @@ import { Game } from "./lib/Game.mjs";
 window.addEventListener("load", e => {
     // TODO
     const game = new Game(4, 2048)
-    game.spawnTile()
-    game.spawnTile()
+    game.start()
     const renderPreElement = document.querySelector("pre.render-pre")
     render(game)
 
