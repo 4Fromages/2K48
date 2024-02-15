@@ -1,7 +1,6 @@
 import { MoveStrategy } from "./MoveStrategy.mjs"
 
 export class MoveUpStrategy extends MoveStrategy {
-    #label = "moveUp"
     #game = null
 
     constructor(game) {

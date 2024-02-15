@@ -53,6 +53,7 @@ export class Case {
 
     /**
      * Removes the tile from the case then returns it
+     * @returns {Case | null}
      */
     unsetTile() {
         const tile = this.#tile
