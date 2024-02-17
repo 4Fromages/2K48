@@ -1,7 +1,6 @@
-import { Tile } from "./Tile.mjs";
+import { Tile } from "./Tile.mjs"
 
 export class Case {
-    
     #x = null
     #y = null
     #tile = null
@@ -45,7 +44,7 @@ export class Case {
 
     /**
      * Sets the specified tile on the case
-     * @returns {Tile}
+     * @returns {Tile | null}
      */
     setTile(tile) {
         this.#tile = tile
@@ -62,10 +61,7 @@ export class Case {
     }
 
     toString() {
-        if (this.#tile == null)
-            return `   `
-        else
-            return ` ${this.#tile.toString()} `
+        if (this.#tile == null) return `   `
+        else return ` ${this.#tile.toString()} `
     }
-
 }

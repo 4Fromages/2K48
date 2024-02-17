@@ -22,10 +22,11 @@ export class MoveStrategy {
             this.shift()
         } else if (firstCaseWithCollidableTile !== null) {
             // Do collision shift
-            const previousTile = this.getPreviousCase(firstCaseWithCollidableTile).getTile()
+            const previousTile = this.getPreviousCase(
+                firstCaseWithCollidableTile
+            ).getTile()
             const currentTile = firstCaseWithCollidableTile.unsetTile()
             previousTile.merge(currentTile)
-            console.log(previousTile.hasJustMerged)
             this.shift()
         }
     }
@@ -35,7 +36,7 @@ export class MoveStrategy {
      * can be collide with the next case, i.e. the specified case and
      * the next case are not empty and the tiles are mergeable,
      * returns false otherwise
-     * @param {Case} currentCase 
+     * @param {Case} currentCase
      * @returns {boolean}
      */
     isSlideableCase(currentCase) {
@@ -48,7 +49,7 @@ export class MoveStrategy {
      * can be collide with the next case, i.e. the specified case and
      * the next case are not empty and the tiles are mergeable,
      * returns false otherwise
-     * @param {Case} currentCase 
+     * @param {Case} currentCase
      * @returns {boolean}
      */
     isCollideableCase(currentCase) {
@@ -66,8 +67,7 @@ export class MoveStrategy {
      * returns null if there is no slideable tile in the grid
      * @returns {Case | null}
      */
-    getFirstCaseWithSlideableTile() {
-    }
+    getFirstCaseWithSlideableTile() {}
 
     /**
      * Returns true if there is at least one case containing a tile that can be slid or collided,
@@ -75,7 +75,10 @@ export class MoveStrategy {
      * @returns {boolean}
      */
     hasShiftableTiles() {
-        return this.getFirstCaseWithSlideableTile() || this.getFirstCaseWithCollidableTile()
+        return (
+            this.getFirstCaseWithSlideableTile() ||
+            this.getFirstCaseWithCollidableTile()
+        )
     }
 
     /**
@@ -97,8 +100,7 @@ export class MoveStrategy {
      * returns null if there is no slideable tile in the grid
      * @returns {Case | null}
      */
-    getFirstCaseWithCollidableTile() {
-    }
+    getFirstCaseWithCollidableTile() {}
 
     /**
      * Returns the next case of the specified case

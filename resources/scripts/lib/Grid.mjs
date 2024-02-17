@@ -62,18 +62,6 @@ export class Grid {
     }
 
     /**
-     * Returns the right case from the specified coordonates
-     * @param {Case} case_
-     * @returns {Case}
-     */
-    getRightCase(case_) {
-        if (case_ === null) return null
-        const x = case_.getX()
-        const y = case_.getY()
-        return this.getCase(x + 1, y)
-    }
-
-    /**
      * Returns an empty case at random or null if there is none of these
      * @returns {Case}
      */
@@ -160,7 +148,7 @@ export class Grid {
      * @returns {boolean}
      */
     #isValidCoords(x, y) {
-        return x >= 0 && x < this.#size && y >= 0 && y < this.#size
+        return x >= 0 && x < this.getSize() && y >= 0 && y < this.getSize()
     }
 
     #setTilesSwipable() {

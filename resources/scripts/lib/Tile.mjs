@@ -14,22 +14,36 @@ export class Tile {
         return this.#value
     }
 
+    /**
+     * Returns true if the tile can be merge with the specified tile,
+     * i.e. if they have not just merged and if the have the same value,
+     * returns false otherwise
+     * @param {Tile | null} tile
+     * @returns {boolean}
+     */
     isMergeableWith(tile) {
         return (
-            !this.hasJustMerged &&
+            tile !== null &&
             !tile.hasJustMerged &&
-            typeof this.#value === "number" &&
+            !this.hasJustMerged &&
             this.#value === tile.getValue()
         )
     }
 
+    /**
+     * Merge the tile with the specified tile i.e. adds the value
+     * of the specified tile to the tile' value and marks it as "just merged"
+     * @param {Tile | null} tile
+     */
     merge(tile) {
-        this.#value += tile.getValue()
-        this.hasJustMerged = true
+        if (tile !== null) {
+            this.#value += tile.getValue()
+            this.hasJustMerged = true
+        }
     }
 
     /**
-     * Generates a low tile at random (with value 1 or 2)
+     * Generates a low tile at random (with value 2 or 4)
      * @returns {Tile}
      */
     static generateRandomLowTile() {
