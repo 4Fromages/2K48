@@ -25,13 +25,8 @@ export class Grid extends Observable {
                 const c = new Case(j, i)
                 this.#cases[i].push(c)
                 // Event delegation
-                c.addEventHandler("slide", (data) =>
-                    this.emitEvent(data.eventName, data)
-                )
-                c.addEventHandler("merge", (data) =>
-                    this.emitEvent(data.eventName, data)
-                )
-                this.emitEvent("build-case", { x: j, y: i })
+                this.spreadEvent("slide", c)
+                this.spreadEvent("merge", c)
             }
         }
     }
@@ -202,9 +197,9 @@ export class Grid extends Observable {
             for (let y = 0; y < this.getSize(); y++) {
                 const currentCase = this.getCase(x, y)
                 currentCase.unsetTile()
-                this.emitEvent("clear")
             }
         }
+        this.emitEvent("clear")
     }
 
     toString() {

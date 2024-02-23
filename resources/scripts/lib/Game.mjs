@@ -12,15 +12,10 @@ export class Game extends Observable {
         super()
         this.#grid = new Grid(size, base)
 
-        this.#grid.addEventHandler("spawn", (data) =>
-            this.emitEvent(data.eventName, data)
-        )
-        this.#grid.addEventHandler("slide", (data) =>
-            this.emitEvent(data.eventName, data)
-        )
-        this.#grid.addEventHandler("merge", (data) =>
-            this.emitEvent(data.eventName, data)
-        )
+        this.spreadEvent("spawn", this.#grid)
+        this.spreadEvent("slide", this.#grid)
+        this.spreadEvent("merge", this.#grid)
+        this.spreadEvent("clear", this.#grid)
     }
 
     /**
@@ -30,6 +25,7 @@ export class Game extends Observable {
         this.#grid.clear()
         this.#grid.spawnTile()
         this.#grid.spawnTile()
+        this.emitEvent("start")
     }
 
     /**

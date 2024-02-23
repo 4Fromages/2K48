@@ -3,6 +3,10 @@ import { Game } from "./lib/Game.mjs";
 window.addEventListener("load", e => {
     // TODO
     const game = new Game(4, 2048)
+    game.addEventHandler("clear", console.log)
+    game.addEventHandler("spawn", console.log)
+    game.addEventHandler("slide", console.log)
+    game.addEventHandler("merge", console.log)
     game.start()
     const renderPreElement = document.querySelector("pre.render-pre")
     render(game)
