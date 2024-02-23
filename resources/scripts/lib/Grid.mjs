@@ -1,4 +1,5 @@
 import { Case } from "./Case.mjs"
+import { Observable } from "./Observable.mjs"
 import { Tile } from "./Tile.mjs"
 import { MoveDownStrategy } from "./moves/MoveDownStrategy.mjs"
 import { MoveLeftStrategy } from "./moves/MoveLeftStrategy.mjs"
@@ -6,13 +7,14 @@ import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
 import { MoveStrategy } from "./moves/MoveStrategy.mjs"
 import { MoveUpStrategy } from "./moves/MoveUpStrategy.mjs"
 
-export class Grid {
+export class Grid extends Observable {
     #size
     #base
     #objective = this.#base ** 10
     #cases
 
     constructor(size = 4, base = 2) {
+        super()
         this.#size = size
         this.#base = base
         this.#cases = new Array()
@@ -20,7 +22,16 @@ export class Grid {
         for (let i = 0; i < this.#size; i++) {
             this.#cases[i] = new Array()
             for (let j = 0; j < this.#size; j++) {
-                this.#cases[i].push(new Case(j, i))
+                const c = new Case(j, i)
+                this.#cases[i].push(c)
+                // Event delegation
+                c.addEventHandler("slide", (data) =>
+                    this.emitEvent(data.eventName, data)
+                )
+                c.addEventHandler("merge", (data) =>
+                    this.emitEvent(data.eventName, data)
+                )
+                this.emitEvent("build-case", { x: j, y: i })
             }
         }
     }
@@ -102,6 +113,13 @@ export class Grid {
         if (this.hasEmptyCases()) {
             const randomEmptyCase = this.getRandomEmptyCase()
             randomEmptyCase.setTile(Tile.generateRandomLowTile())
+            this.emitEvent("spawn", {
+                spawnCase: {
+                    x: randomEmptyCase.getX(),
+                    y: randomEmptyCase.getY(),
+                    tileValue: randomEmptyCase.getTile().getValue(),
+                }
+            })
         }
     }
 
@@ -117,7 +135,10 @@ export class Grid {
             new MoveLeftStrategy(this),
             new MoveRightStrategy(this),
         ]
-        return !this.hasEmptyCases() && moveStrategies.some(strategy => !strategy.hasShiftableTiles())
+        return (
+            !this.hasEmptyCases() &&
+            moveStrategies.some((strategy) => !strategy.hasShiftableTiles())
+        )
     }
 
     /**
@@ -181,6 +202,7 @@ export class Grid {
             for (let y = 0; y < this.getSize(); y++) {
                 const currentCase = this.getCase(x, y)
                 currentCase.unsetTile()
+                this.emitEvent("clear")
             }
         }
     }

@@ -8,27 +8,19 @@ export class MoveStrategy {
     }
 
     /**
-     * Does a move
+     * Does a shift, then shift
      */
     shift() {
-        const firstCaseWithSlideableTile = this.getFirstCaseWithSlideableTile()
-        const firstCaseWithCollidableTile =
-            this.getFirstCaseWithCollidableTile()
-        if (firstCaseWithSlideableTile !== null) {
-            // Do slide shift
-            const nextCase = this.getNextCase(firstCaseWithSlideableTile)
-            const tile = firstCaseWithSlideableTile.unsetTile()
-            nextCase.setTile(tile)
-            this.shift()
-        } else if (firstCaseWithCollidableTile !== null) {
-            // Do collision shift
-            const previousTile = this.getPreviousCase(
-                firstCaseWithCollidableTile
-            ).getTile()
-            const currentTile = firstCaseWithCollidableTile.unsetTile()
-            previousTile.merge(currentTile)
-            this.shift()
-        }
+        let srcCase, destCase
+        if (this.hasSlideableTiles()) {
+            srcCase = this.getFirstCaseWithSlideableTile()
+            destCase = this.getNextCase(srcCase)
+        } else if (this.hasCollideableTiles()) {
+            srcCase = this.getFirstCaseWithCollidableTile()
+            destCase = this.getPreviousCase(srcCase)
+        } else return
+        srcCase.transfer(destCase)
+        this.shift()
     }
 
     /**
@@ -85,14 +77,14 @@ export class MoveStrategy {
      * Returns true if there is at least one tile that can be slid, returns false otherwise
      */
     hasSlideableTiles() {
-        return this.getFirstCaseWithSlideableTile() === null
+        return this.getFirstCaseWithSlideableTile() !== null
     }
 
     /**
      * Returns true if there is at least one tile that can be collide, returns false otherwise
      */
     hasCollideableTiles() {
-        return this.getFirstCaseWithCollidableTile() === null
+        return this.getFirstCaseWithCollidableTile() !== null
     }
 
     /**

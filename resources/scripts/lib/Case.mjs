@@ -1,11 +1,13 @@
+import { Observable } from "./Observable.mjs"
 import { Tile } from "./Tile.mjs"
 
-export class Case {
+export class Case extends Observable {
     #x = null
     #y = null
     #tile = null
 
     constructor(x, y) {
+        super()
         this.#x = x
         this.#y = y
     }
@@ -58,6 +60,48 @@ export class Case {
         const tile = this.#tile
         this.#tile = null
         return tile
+    }
+
+    /**
+     * Merges the specified tile to the tile of this case
+     * @param {Tile | null} tile
+     */
+    mergeTile(tile) {
+        this.#tile.merge(tile)
+    }
+
+    /**
+     * Transfer the tile from this case to the specified case, if the case
+     * is not empty, merges it
+     * @param {Case} case_
+     */
+    transfer(case_) {
+        const tile = this.unsetTile()
+        let data = {
+            srcCase: {
+                x: case_.getX(),
+                y: case_.getY(),
+                oldTileValue: tile.getValue(),
+            },
+            destCase: {
+                x: this.getX(),
+                y: this.getY(),
+                oldTileValue: case_.isEmpty()
+                    ? null
+                    : case_.getTile().getValue(),
+            },
+        }
+        if (case_.isEmpty()) {
+            case_.setTile(tile)
+            data.srcCase.newTileValue = null
+            data.destCase.newTileValue = case_.getTile().getValue()
+            this.emitEvent("slide", data)
+        } else {
+            case_.mergeTile(tile)
+            data.srcCase.newTileValue = null
+            data.destCase.newTileValue = case_.getTile().getValue()
+            this.emitEvent("merge", data)
+        }
     }
 
     toString() {
