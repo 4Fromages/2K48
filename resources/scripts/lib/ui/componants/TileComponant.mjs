@@ -46,7 +46,7 @@ export class TileComponant extends Componant {
             }
         }
         this.#element.classList.add(`tile-value-${value}`)
-        this.#element.innerText = value
+        this.#element.innerHTML = value.toString().replace("0", "&Kopf;")
     }
 
     doubleValue() {
@@ -60,11 +60,9 @@ export class TileComponant extends Componant {
     create() {
         this.#element = document.createElement("div")
         this.#element.classList.add("tile")
-        this.#element.classList.add(`tile-position-${this.#x}-${this.#y}`)
-        this.#element.classList.add(`tile-value-${this.#value}`)
+        this.setCoords(this.#x, this.#y)
+        this.setValue(this.#value)
         this.#element.classList.add("tile-spawn")
-
-        this.#element.innerText = this.getValue()
     }
 
     remove() {

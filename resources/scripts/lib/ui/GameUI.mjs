@@ -28,7 +28,6 @@ export class GameUI {
             this.createTile(x, y, tileValue)
         })
         this.#game.addEventHandler("slide", (data) => {
-            console.log(data)
             this.moveTile(
                 data.srcCase.x,
                 data.srcCase.y,
@@ -37,7 +36,6 @@ export class GameUI {
             )
         })
         this.#game.addEventHandler("merge", (data) => {
-            console.log(data)
             this.mergeTile(
                 data.srcCase.x,
                 data.srcCase.y,
@@ -82,13 +80,17 @@ export class GameUI {
     createTile(x, y, value) {
         const newTile = new TileComponant(x, y, value)
         this.#tiles.push(newTile)
-        this.#tileContainer.append(newTile.getElement())
+        setTimeout(() => {
+            this.#tileContainer.appendChild(newTile.getElement())
+        }, 100);
     }
 
     removeTile(tileComponant) {
         const index = this.#tiles.indexOf(tileComponant)
         this.#tiles.splice(index, 1)
-        tileComponant.remove()
+        setTimeout(() => {
+            tileComponant.remove()
+        }, 100);
     }
 
     clearTiles() {
@@ -108,7 +110,7 @@ export class GameUI {
 
     moveTile(srcX, srcY, destX, destY) {
         const tileComponant = this.getTile(srcX, srcY)
-        tileComponant.setCoords(destX, destY)
+        if (tileComponant !== null) tileComponant.setCoords(destX, destY)
     }
 
     mergeTile(srcX, srcY, destX, destY) {
