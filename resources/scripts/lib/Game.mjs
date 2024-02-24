@@ -6,10 +6,12 @@ import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
 import { Observable } from "./Observable.mjs"
 
 export class Game extends Observable {
-    #grid
+    #grid = null
+    #size = null
 
     constructor(size, base) {
         super()
+        this.#size = size
         this.#grid = new Grid(size, base)
 
         this.spreadEvent("spawn", this.#grid)
@@ -18,8 +20,12 @@ export class Game extends Observable {
         this.spreadEvent("clear", this.#grid)
     }
 
+    getSize() {
+        return this.#size
+    }
+
     /**
-     * Starts or restart a game
+     * Starts or restarts a game
      */
     start() {
         this.#grid.clear()
@@ -54,9 +60,5 @@ export class Game extends Observable {
      */
     swipeRight() {
         this.#grid.move(new MoveRightStrategy(this.#grid))
-    }
-
-    toString() {
-        return this.#grid.toString()
     }
 }

@@ -16,9 +16,11 @@ export class MoveStrategy {
             srcCase = this.getFirstCaseWithSlideableTile()
             destCase = this.getNextCase(srcCase)
         } else if (this.hasCollideableTiles()) {
-            srcCase = this.getFirstCaseWithCollidableTile()
-            destCase = this.getPreviousCase(srcCase)
-        } else return
+            destCase = this.getFirstCaseWithCollideableTile()
+            srcCase = this.getPreviousCase(destCase)
+        } else {
+            return
+        }
         srcCase.transfer(destCase)
         this.shift()
     }
@@ -38,7 +40,7 @@ export class MoveStrategy {
 
     /**
      * Returns true if the specified case contains a tile that
-     * can be collide with the next case, i.e. the specified case and
+     * can be collided with the next case, i.e. the specified case and
      * the next case are not empty and the tiles are mergeable,
      * returns false otherwise
      * @param {Case} currentCase
@@ -69,7 +71,7 @@ export class MoveStrategy {
     hasShiftableTiles() {
         return (
             this.getFirstCaseWithSlideableTile() ||
-            this.getFirstCaseWithCollidableTile()
+            this.getFirstCaseWithCollideableTile()
         )
     }
 
@@ -84,7 +86,7 @@ export class MoveStrategy {
      * Returns true if there is at least one tile that can be collide, returns false otherwise
      */
     hasCollideableTiles() {
-        return this.getFirstCaseWithCollidableTile() !== null
+        return this.getFirstCaseWithCollideableTile() !== null
     }
 
     /**
@@ -92,7 +94,7 @@ export class MoveStrategy {
      * returns null if there is no slideable tile in the grid
      * @returns {Case | null}
      */
-    getFirstCaseWithCollidableTile() {}
+    getFirstCaseWithCollideableTile() {}
 
     /**
      * Returns the next case of the specified case

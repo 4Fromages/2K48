@@ -73,39 +73,46 @@ export class Case extends Observable {
     /**
      * Transfer the tile from this case to the specified case, if the case
      * is not empty, merges it
-     * @param {Case} case_
+     * @param {Case} destCase
      */
-    transfer(case_) {
+    transfer(destCase) {
         const tile = this.unsetTile()
-        let data = {
-            srcCase: {
-                x: case_.getX(),
-                y: case_.getY(),
-                oldTileValue: tile.getValue(),
-            },
-            destCase: {
-                x: this.getX(),
-                y: this.getY(),
-                oldTileValue: case_.isEmpty()
-                    ? null
-                    : case_.getTile().getValue(),
-            },
-        }
-        if (case_.isEmpty()) {
-            case_.setTile(tile)
-            data.srcCase.newTileValue = null
-            data.destCase.newTileValue = case_.getTile().getValue()
-            this.emitEvent("slide", data)
+        if (destCase.isEmpty()) {
+            destCase.setTile(tile)
+            this.emitEvent("slide", {
+                srcCase: {
+                    x: this.getX(),
+                    y: this.getY(),
+                    oldTileValue: tile.getValue(),
+                    newTileValue: null,
+                },
+                destCase: {
+                    x: destCase.getX(),
+                    y: destCase.getY(),
+                    oldTileValue: destCase.isEmpty()
+                        ? null
+                        : destCase.getTile().getValue(),
+                    newTileValue: destCase.getTile().getValue(),
+                },
+            })
         } else {
-            case_.mergeTile(tile)
-            data.srcCase.newTileValue = null
-            data.destCase.newTileValue = case_.getTile().getValue()
-            this.emitEvent("merge", data)
+            destCase.mergeTile(tile)
+            this.emitEvent("merge", {
+                srcCase: {
+                    x: this.getX(),
+                    y: this.getY(),
+                    oldTileValue: tile.getValue(),
+                    newTileValue: null,
+                },
+                destCase: {
+                    x: destCase.getX(),
+                    y: destCase.getY(),
+                    oldTileValue: destCase.isEmpty()
+                        ? null
+                        : destCase.getTile().getValue(),
+                    newTileValue: destCase.getTile().getValue(),
+                },
+            })
         }
-    }
-
-    toString() {
-        if (this.#tile == null) return `   `
-        else return ` ${this.#tile.toString()} `
     }
 }

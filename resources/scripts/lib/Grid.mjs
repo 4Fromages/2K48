@@ -201,25 +201,4 @@ export class Grid extends Observable {
         }
         this.emitEvent("clear")
     }
-
-    toString() {
-        let out = new String()
-
-        for (let _ = 0; _ < this.#size; _++) {
-            out += "+---"
-        }
-        out += "+\n"
-        for (let y = 0; y < this.#size; y++) {
-            for (let x = 0; x < this.#size; x++) {
-                const c = this.getCase(x, y)
-                out += "|" + c.toString()
-            }
-            out += "|\n"
-            for (let _ = 0; _ < this.#size; _++) {
-                out += "+---"
-            }
-            out += "+\n"
-        }
-        return out
-    }
 }

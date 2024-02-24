@@ -50,8 +50,4 @@ export class Tile {
         let randomValue = 2 ** (Math.floor(Math.random() * 2) + 1)
         return new Tile(randomValue)
     }
-
-    toString() {
-        return this.#value.toString()
-    }
 }

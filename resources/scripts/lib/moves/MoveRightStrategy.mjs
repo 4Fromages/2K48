@@ -20,7 +20,7 @@ export class MoveRightStrategy extends MoveStrategy {
         return null
     }
 
-    getFirstCaseWithCollidableTile() {
+    getFirstCaseWithCollideableTile() {
         for (let y = 0; y < this.#grid.getSize(); y++) {
             for (let x = this.#grid.getSize() - 1; x > 0; x--) {
                 const currentCase = this.#grid.getCase(x, y)

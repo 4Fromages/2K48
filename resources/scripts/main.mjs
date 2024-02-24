@@ -1,19 +1,13 @@
 import { Game } from "./lib/Game.mjs";
+import { GameUI } from "./lib/ui/GameUI.mjs";
 
 window.addEventListener("load", e => {
     // TODO
     const game = new Game(4, 2048)
-    game.addEventHandler("clear", console.log)
-    game.addEventHandler("spawn", console.log)
-    game.addEventHandler("slide", console.log)
-    game.addEventHandler("merge", console.log)
-    game.start()
-    const renderPreElement = document.querySelector("pre.render-pre")
-    render(game)
 
-    function render(content) {
-        renderPreElement.innerText = content.toString()
-    }
+    const gameUI = new GameUI(game)
+    gameUI.mount(".game-container")
+    game.start()
 
     window.addEventListener("keydown", e => {
         switch (e.key) {
@@ -22,6 +16,5 @@ window.addEventListener("load", e => {
             case "ArrowLeft":  game.swipeLeft();  break;
             case "ArrowRight": game.swipeRight(); break;
         }
-        render(game)
     })
 })
