@@ -1,11 +1,11 @@
 import { Game } from "./lib/Game.mjs"
-import { GameUI } from "./lib/ui/GameUI.mjs"
+import { GameComponant } from "./lib/componants/GameComponant.mjs"
 
 window.addEventListener("load", () => {
+    const appContainer = document.querySelector(".app")
     const game = new Game(4, 2048)
-
-    const gameUI = new GameUI(game)
-    gameUI.mount(".game-container")
+    const gameComponant = new GameComponant(game)
+    gameComponant.mount(appContainer)
     game.start()
 
     document.addEventListener("swipeup",    () => game.swipeUp())

@@ -47,7 +47,7 @@ export class Tile {
      * @returns {Tile}
      */
     static generateRandomLowTile() {
-        let randomValue = 2 ** (Math.floor(Math.random() * 2) + 1)
+        const randomValue = 2 ** (Math.floor(Math.random() * 2) + 1)
         return new Tile(randomValue)
     }
 }
