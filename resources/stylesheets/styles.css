@@ -2,12 +2,15 @@
 @import "./reset.css";
 @import "./keyframes.css";
 
-pre {
-    margin: 50px;
+h1 {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;
     text-align: center;
-    font-family: monospace;
 }
-
 .game-container {
     --gap: 6px;
     --grid-size: 4;
@@ -88,7 +91,6 @@ pre {
 
     text-align: center;
     line-height: var(--case-height);
-    font-size: 30px;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 
     -webkit-transform: translate(var(--translate-x), var(--translate-y));
@@ -99,7 +101,11 @@ pre {
     --primary-background: #ffffff;
     --second-background: #f5e0e0;
     --shadow-color: #eac0c0;
+    --font-size: 30px;
+
     color: var(--color);
+    font-size: var(--font-size);
+
     background: linear-gradient(
         145deg,
         var(--primary-background),
@@ -168,7 +174,6 @@ pre {
 }
 
 .tile.tile-value-256 {
-    color: #fff;
     --color: #fff;
     --primary-background: #840404;
     --second-background: #5d0808;
@@ -176,7 +181,6 @@ pre {
 }
 
 .tile.tile-value-512 {
-    color: #fff;
     --color: #fff;
     --primary-background: #5d0808;
     --second-background: #240E0E;
@@ -184,32 +188,32 @@ pre {
 }
 
 .tile.tile-value-1024 {
-    color: #fff;
     --color: #fff;
+    --font-size: 25px;
     --primary-background: #240E0E;
     --second-background: #370c0c;
     --shadow-color: #101010;
 }
 
 .tile.tile-value-2048 {
-    color: #fff;
     --color: #fff;
+    --font-size: 25px;
     --primary-background: #101010;
     --second-background: #000000;
     --shadow-color: #000000;
 }
 
 .tile.tile-value-4096 {
-    color: #fff;
     --color: #fff;
+    --font-size: 25px;
     --primary-background: #101010;
     --second-background: #000000;
     --shadow-color: #000000;
 }
 
 .tile.tile-value-8192 {
-    color: #fff;
     --color: #fff;
+    --font-size: 25px;
     --primary-background: #101010;
     --second-background: #000000;
     --shadow-color: #000000;

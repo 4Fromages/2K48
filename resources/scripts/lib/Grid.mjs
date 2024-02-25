@@ -1,11 +1,11 @@
 import { Case } from "./Case.mjs"
 import { Observable } from "./Observable.mjs"
 import { Tile } from "./Tile.mjs"
+import { MoveStrategy } from "./moves/MoveStrategy.mjs"
+import { MoveUpStrategy } from "./moves/MoveUpStrategy.mjs"
 import { MoveDownStrategy } from "./moves/MoveDownStrategy.mjs"
 import { MoveLeftStrategy } from "./moves/MoveLeftStrategy.mjs"
 import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
-import { MoveStrategy } from "./moves/MoveStrategy.mjs"
-import { MoveUpStrategy } from "./moves/MoveUpStrategy.mjs"
 
 export class Grid extends Observable {
     #size
@@ -187,6 +187,22 @@ export class Grid extends Observable {
             this.spawnTile()
             this.#setTilesSwipable()
         }
+    }
+
+    moveUp() {
+        this.move(new MoveUpStrategy(this))
+    }
+
+    moveDown() {
+        this.move(new MoveDownStrategy(this))
+    }
+
+    moveLeft() {
+        this.move(new MoveLeftStrategy(this))
+    }
+
+    moveRight() {
+        this.move(new MoveRightStrategy(this))
     }
 
     /**
