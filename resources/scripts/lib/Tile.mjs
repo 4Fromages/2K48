@@ -1,9 +1,34 @@
 export class Tile {
-    #value = 2
+    #value = null
+    #x = null
+    #y = null
     hasJustMerged = false
 
-    constructor(value = 2) {
+    constructor(x, y, value = 2) {
         this.#value = value
+        this.#x = x
+        this.#y = y
+    }
+
+    /**
+     * Returns the abscissa of the tile's coordonates
+     * @returns {number}
+     */
+    getX() {
+        return this.#x
+    }
+
+    /**
+     * Returns the ordonate of the tile's coordonates
+     * @returns {number}
+     */
+    getY() {
+        return this.#y
+    }
+
+    setCoords(x, y) {
+        this.#x = x
+        this.#y = y
     }
 
     /**
@@ -12,6 +37,14 @@ export class Tile {
      */
     getValue() {
         return this.#value
+    }
+
+    setValue(value) {
+        this.#value = value
+    }
+
+    doubleValue() {
+        this.#value = this.#value * 2
     }
 
     /**
@@ -31,23 +64,12 @@ export class Tile {
     }
 
     /**
-     * Merge the tile with the specified tile i.e. adds the value
-     * of the specified tile to the tile' value and marks it as "just merged"
-     * @param {Tile | null} tile
-     */
-    merge(tile) {
-        if (tile !== null) {
-            this.#value += tile.getValue()
-            this.hasJustMerged = true
-        }
-    }
-
-    /**
      * Generates a low tile at random (with value 2 or 4)
      * @returns {Tile}
      */
-    static generateRandomLowTile() {
+    static createRandomLowTile(x, y) {
         const randomValue = 2 ** (Math.floor(Math.random() * 2) + 1)
-        return new Tile(randomValue)
+        return new Tile(x, y, randomValue)
     }
+
 }

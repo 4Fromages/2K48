@@ -1,5 +1,3 @@
-import { Case } from "../Case.mjs"
-
 export class MoveStrategy {
     #grid = null
 
@@ -11,31 +9,31 @@ export class MoveStrategy {
      * Does a shift, then shift
      */
     shift() {
-        let srcCase, destCase
-        if (this.hasSlideableTiles()) {
-            srcCase = this.getFirstCaseWithSlideableTile()
-            destCase = this.getNextCase(srcCase)
-        } else if (this.hasCollideableTiles()) {
-            destCase = this.getFirstCaseWithCollideableTile()
-            srcCase = this.getPreviousCase(destCase)
-        } else {
-            return
-        }
-        srcCase.transfer(destCase)
+        if (this.hasMoveableTiles()) {
+            const srcTile = this.getFirstMoveableTile()
+            const [destX, destY] = this.getNextCoords(srcTile)
+            this.#grid.transferTile(srcTile.getX(), srcTile.getY(), destX, destY)
+        } else if (this.hasMergeableTiles()) {
+            const destTile = this.getFirstMergeableTile()
+            const [srcX, srcY] = this.getPreviousCoords(destTile)
+            this.#grid.transferTile(srcX, srcY, destTile.getX(), destTile.getY())
+        } else return
         this.shift()
     }
 
     /**
      * Returns true if the specified case contains a tile that
-     * can be collide with the next case, i.e. the specified case and
+     * can be merged with the next case, i.e. the specified case and
      * the next case are not empty and the tiles are mergeable,
      * returns false otherwise
      * @param {Case} currentCase
      * @returns {boolean}
      */
-    isSlideableCase(currentCase) {
-        const nextCase = this.getNextCase(currentCase)
-        return !currentCase.isEmpty() && nextCase.isEmpty()
+    isMoveableTile(srcTile) {
+        const [x, y] = this.getNextCoords(srcTile)
+        if (!this.#grid.areValidCoords(x, y)) return false
+        const destTile = this.#grid.getTileAt(x, y)
+        return destTile === null
     }
 
     /**
@@ -43,17 +41,14 @@ export class MoveStrategy {
      * can be collided with the next case, i.e. the specified case and
      * the next case are not empty and the tiles are mergeable,
      * returns false otherwise
-     * @param {Case} currentCase
+     * @param {Case} tile
      * @returns {boolean}
      */
-    isCollideableCase(currentCase) {
-        const previousCase = this.getPreviousCase(currentCase)
-        if (previousCase === null) return false
-        return (
-            !currentCase.isEmpty() &&
-            !previousCase.isEmpty() &&
-            previousCase.getTile().isMergeableWith(currentCase.getTile())
-        )
+    isMergeableTile(destTile) {
+        const [x, y] = this.getPreviousCoords(destTile)
+        if (!this.#grid.areValidCoords(x, y)) return false
+        const srcTile = this.#grid.getTileAt(x, y)
+        return srcTile !== null && destTile.isMergeableWith(srcTile)
     }
 
     /**
@@ -61,52 +56,63 @@ export class MoveStrategy {
      * returns null if there is no slideable tile in the grid
      * @returns {Case | null}
      */
-    getFirstCaseWithSlideableTile() {}
+    getFirstMoveableTile() {
+        for (const tile of this.#grid.tiles) {
+            if (this.isMoveableTile(tile)) {
+                return tile
+            }
+        }
+        return null
+    }
 
     /**
      * Returns true if there is at least one case containing a tile that can be slid or collided,
      * returns false otherwise
      * @returns {boolean}
      */
-    hasShiftableTiles() {
-        return (
-            this.getFirstCaseWithSlideableTile() ||
-            this.getFirstCaseWithCollideableTile()
-        )
+    hasTransferableTiles() {
+        return this.hasMoveableTiles() || this.hasMergeableTiles()
     }
 
     /**
      * Returns true if there is at least one tile that can be slid, returns false otherwise
      */
-    hasSlideableTiles() {
-        return this.getFirstCaseWithSlideableTile() !== null
+    hasMoveableTiles() {
+        return this.getFirstMoveableTile() !== null
     }
 
     /**
-     * Returns true if there is at least one tile that can be collide, returns false otherwise
+     * Returns true if there is at least one tile that can be merged, returns false otherwise
      */
-    hasCollideableTiles() {
-        return this.getFirstCaseWithCollideableTile() !== null
+    hasMergeableTiles() {
+        return this.getFirstMergeableTile() !== null
     }
 
     /**
-     * Returns the first case containing a tile that can be collid or
+     * Returns the first case containing a tile that can be merged or
      * returns null if there is no slideable tile in the grid
      * @returns {Case | null}
      */
-    getFirstCaseWithCollideableTile() {}
+    getFirstMergeableTile() {
+        for (const tile of this.#grid.tiles) {
+            if (this.isMergeableTile(tile)) {
+                return tile
+            }
+        }
+        return null
+    }
 
     /**
      * Returns the next case of the specified case
-     * @param {Case} case_
-     * @returns {Case | null}
+     * @param {Tile} tile 
+     * @returns {number[][]}
      */
-    getNextCase(case_) {}
+    getNextCoords(tile) {}
 
     /**
      * Returns the previous case of the specified case
-     * @param {Case} case_
-     * @returns {Case | null}
+     * @param {Tile} tile 
+     * @returns {number[][]}
      */
-    getPreviousCase(case_) {}
+    getPreviousCoords(tile) {}
 }

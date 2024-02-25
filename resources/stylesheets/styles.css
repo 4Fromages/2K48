@@ -11,6 +11,11 @@ h1 {
     font-size: 8vw;
     text-align: center;
 }
+
+.red {
+    color: #aa0000;
+}
+
 .game-container {
     --gap: 6px;
     --grid-size: 4;
@@ -84,7 +89,6 @@ h1 {
     display: inline-block;
     width: var(--case-width);
     height: var(--case-height);
-    margin: var(--gap);
 
     border-radius: var(--grid-border-radius);
     background-color: #eee4da;

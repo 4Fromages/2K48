@@ -36,25 +36,25 @@ export class GameComponant extends Componant {
             this.#gridComponant.clearTiles()
         })
         this.#game.addEventHandler("spawn", (data) => {
-            const { x, y, tileValue } = data.spawnCase
-            this.#gridComponant.createTile(x, y, tileValue)
+            const { x, y, value } = data.tile
+            this.#gridComponant.createTile(x, y, value)
         })
         this.#game.addEventHandler("slide", (data) => {
             this.#gridComponant.moveTile(
-                data.srcCase.x,
-                data.srcCase.y,
-                data.destCase.x,
-                data.destCase.y
+                data.srcTile.x,
+                data.srcTile.y,
+                data.destTile.x,
+                data.destTile.y
             )
         })
         this.#game.addEventHandler("merge", (data) => {
             this.#gridComponant.mergeTile(
-                data.srcCase.x,
-                data.srcCase.y,
-                data.destCase.x,
-                data.destCase.y
+                data.srcTile.x,
+                data.srcTile.y,
+                data.destTile.x,
+                data.destTile.y
             )
-            this.#scoreComponant.addValue(data.srcCase.oldTileValue)
+            this.#scoreComponant.addValue(data.srcTile.oldValue)
         })
     }
 }

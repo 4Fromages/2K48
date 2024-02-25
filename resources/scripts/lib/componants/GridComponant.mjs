@@ -4,7 +4,7 @@ import { TileComponant } from "./TileComponant.mjs";
 export class GridComponant extends Componant {
     #gridContainer = null
     #tileContainer = null
-    #tiles = new Array()
+    tiles = new Array()
     #size = 0
 
     constructor(size = 4) {
@@ -43,28 +43,28 @@ export class GridComponant extends Componant {
 
     createTile(x, y, value) {
         const newTile = new TileComponant(x, y, value)
-        this.#tiles.push(newTile)
+        this.tiles.push(newTile)
         setTimeout(() => {
             this.#tileContainer.appendChild(newTile.getElement())
         }, 100);
     }
 
     removeTile(tileComponant) {
-        const index = this.#tiles.indexOf(tileComponant)
-        this.#tiles.splice(index, 1)
+        const index = this.tiles.indexOf(tileComponant)
+        this.tiles.splice(index, 1)
         setTimeout(() => {
             tileComponant.remove()
         }, 100);
     }
 
     clearTiles() {
-        for (const tileComponant of this.#tiles) {
+        for (const tileComponant of this.tiles) {
             this.removeTile(tileComponant)
         }
     }
 
-    getTile(x, y) {
-        for (const tileComponant of this.#tiles) {
+    getTileAt(x, y) {
+        for (const tileComponant of this.tiles) {
             if (x == tileComponant.getX() && y == tileComponant.getY()) {
                 return tileComponant
             }
@@ -73,13 +73,13 @@ export class GridComponant extends Componant {
     }
 
     moveTile(srcX, srcY, destX, destY) {
-        const tileComponant = this.getTile(srcX, srcY)
+        const tileComponant = this.getTileAt(srcX, srcY)
         if (tileComponant !== null) tileComponant.setCoords(destX, destY)
     }
 
     mergeTile(srcX, srcY, destX, destY) {
-        const srcTileComponant = this.getTile(srcX, srcY)
-        const destTileComponant = this.getTile(destX, destY)
+        const srcTileComponant = this.getTileAt(srcX, srcY)
+        const destTileComponant = this.getTileAt(destX, destY)
 
         srcTileComponant.setCoords(destX, destY)
         srcTileComponant.doubleValue()
