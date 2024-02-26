@@ -72,4 +72,12 @@ export class Tile {
         return new Tile(x, y, randomValue)
     }
 
+    toObject() {
+        return {
+            x: this.getX(),
+            y: this.getY(),
+            value: this.getValue(),
+        }
+    }
+
 }

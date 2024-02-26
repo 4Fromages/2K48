@@ -1,3 +1,4 @@
+import { Grid } from "../Grid.mjs";
 import { Componant } from "./Componant.mjs";
 import { TileComponant } from "./TileComponant.mjs";
 
@@ -5,11 +6,9 @@ export class GridComponant extends Componant {
     #gridContainer = null
     #tileContainer = null
     tiles = new Array()
-    #size = 0
 
-    constructor(size = 4) {
+    constructor() {
         super()
-        this.#size = size
         this.create()
     }
 
@@ -17,19 +16,15 @@ export class GridComponant extends Componant {
         return this.#gridContainer
     }
 
-    getSize() {
-        return this.#size
-    }
-
     create() {
         this.#gridContainer = document.createElement("div")
         this.#gridContainer.classList.add("grid-container")
 
-        for (let i = 0; i < this.#size; i++) {
+        for (let i = 0; i < Grid.getSize(); i++) {
             const gridRow = document.createElement("div")
             gridRow.classList.add("grid-row")
 
-            for (let j = 0; j < this.#size; j++) {
+            for (let j = 0; j < Grid.getSize(); j++) {
                 const gridCase = document.createElement("div")
                 gridCase.classList.add("grid-case")
                 gridRow.appendChild(gridCase)

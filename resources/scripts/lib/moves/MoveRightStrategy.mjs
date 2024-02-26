@@ -6,6 +6,7 @@ export class MoveRightStrategy extends MoveStrategy {
     constructor(grid) {
         super(grid)
         this.#grid = grid
+        this.direction = "right"
     }
 
     getFirstMoveableTile() {

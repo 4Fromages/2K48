@@ -6,6 +6,7 @@ export class MoveUpStrategy extends MoveStrategy {
     constructor(grid) {
         super(grid)
         this.#grid = grid
+        this.direction = "up"
     }
 
     getFirstMoveableTile() {

@@ -3,10 +3,20 @@ import { GameComponant } from "./lib/componants/GameComponant.mjs"
 
 window.addEventListener("load", () => {
     const appContainer = document.querySelector(".app")
-    const game = new Game(4, 2048)
+    const game = new Game()
     const gameComponant = new GameComponant(game)
     gameComponant.mount(appContainer)
-    game.start()
+
+    let gameData = localStorage.getItem("game-data")
+    if (gameData == null) {
+        game.start()
+    } else {
+        game.deserialize(gameData)
+    }
+
+    game.addEventHandler("move", () => {
+        localStorage.setItem("game-data", game.serialize())
+    })
 
     document.addEventListener("swipeup",    () => game.swipeUp())
     document.addEventListener("swipedown",  () => game.swipeDown())

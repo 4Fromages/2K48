@@ -7,23 +7,30 @@ import { MoveLeftStrategy } from "./moves/MoveLeftStrategy.mjs"
 import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
 
 export class Grid extends Observable {
-    #size
-    #base
-    #objective = this.#base ** 11
+    static #SIZE = 4
+    static #BASE = 2
+    static #OBJECTIVE = Grid.#BASE ** 11
+
     tiles = new Array()
 
-    constructor(size = 4, base = 2) {
+    constructor() {
         super()
-        this.#size = size
-        this.#base = base
     }
 
     /**
      * Returns the grid's size, i.e. the number of cases among a side
      * @returns {number}
      */
-    getSize() {
-        return this.#size
+    static getSize() {
+        return Grid.#SIZE
+    }
+
+    static getBase() {
+        return Grid.#BASE
+    }
+
+    static getObjective() {
+        return Grid.#OBJECTIVE
     }
 
     /**
@@ -32,7 +39,7 @@ export class Grid extends Observable {
      * @returns {boolean}
      */
     hasEmptyCases() {
-        return this.tiles.length < this.getSize() ** 2
+        return this.tiles.length < Grid.getSize() ** 2
     }
 
     /**
@@ -137,6 +144,7 @@ export class Grid extends Observable {
             moveStrategy.shift()
             this.spawnTile()
             this.#setTilesSwipable()
+            this.emitEvent("move", { direction: moveStrategy.direction })
         }
     }
 
@@ -181,12 +189,12 @@ export class Grid extends Observable {
      * @returns {boolean}
      */
     isGameWon() {
-        for (let x = 0; x < this.getSize(); x++) {
-            for (let y = 0; y < this.getSize(); y++) {
+        for (let x = 0; x < Grid.getSize(); x++) {
+            for (let y = 0; y < Grid.getSize(); y++) {
                 const c = this.getCase(x, y)
                 if (
                     c.getTileAt() != null &&
-                    c.getCase().value >= this.#objective
+                    c.getCase().value >= Grid.getObjective()
                 ) {
                     return true
                 }
@@ -201,8 +209,8 @@ export class Grid extends Observable {
      */
     #getAllCoords() {
         const coords = new Array()
-        for (let x = 0; x < this.getSize(); x++) {
-            for (let y = 0; y < this.getSize(); y++) {
+        for (let x = 0; x < Grid.getSize(); x++) {
+            for (let y = 0; y < Grid.getSize(); y++) {
                 coords.push([x, y])
             }
         }
@@ -238,12 +246,20 @@ export class Grid extends Observable {
      * @returns {boolean}
      */
     areValidCoords(x, y) {
-        return x >= 0 && x < this.getSize() && y >= 0 && y < this.getSize()
+        return x >= 0 && x < Grid.getSize() && y >= 0 && y < Grid.getSize()
     }
 
     #setTilesSwipable() {
         for (const tile of this.tiles) {
             tile.hasJustMerged = false
         }
+    }
+
+    toObject() {
+        const out = { tiles: [] }
+        for (const tile of this.tiles) {
+            out.tiles.push(tile.toObject())
+        }
+        return out
     }
 }

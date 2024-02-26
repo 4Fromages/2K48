@@ -1,23 +1,19 @@
 import { Grid } from "./Grid.mjs"
 import { Observable } from "./Observable.mjs"
+import { Tile } from "./Tile.mjs"
 
 export class Game extends Observable {
     #grid = null
-    #size = null
 
-    constructor(size, base) {
+    constructor() {
         super()
-        this.#size = size
-        this.#grid = new Grid(size, base)
+        this.#grid = new Grid()
 
+        this.spreadEvent("move", this.#grid)
         this.spreadEvent("spawn", this.#grid)
         this.spreadEvent("slide", this.#grid)
         this.spreadEvent("merge", this.#grid)
         this.spreadEvent("clear", this.#grid)
-    }
-
-    getSize() {
-        return this.#size
     }
 
     /**
@@ -56,5 +52,26 @@ export class Game extends Observable {
      */
     swipeRight() {
         this.#grid.moveRight()
+    }
+
+    toObject() {
+        return {
+            grid: this.#grid.toObject()
+        }
+    }
+
+    serialize() {
+        return JSON.stringify(this.toObject())
+    }
+
+    deserialize(string) {
+        this.#grid.clear()
+        const o = JSON.parse(string)
+        for (const tileObject of o.grid.tiles) {
+            const { x, y, value } = tileObject
+            this.#grid.addTile(new Tile(x, y, value))
+            this.emitEvent("spawn", { tile: tileObject })
+        }
+        this.emitEvent("start")
     }
 }

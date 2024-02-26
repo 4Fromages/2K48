@@ -26,10 +26,11 @@ export class GameComponant extends Componant {
         this.#gameContainer = document.createElement("div")
         this.#gameContainer.classList.add("game-container")
 
-        this.#scoreComponant = new ScoreComponant()
-        this.append(this.#scoreComponant)
+        // TODO
+        // this.#scoreComponant = new ScoreComponant()
+        // this.append(this.#scoreComponant)
 
-        this.#gridComponant = new GridComponant(this.getGame().getSize())
+        this.#gridComponant = new GridComponant()
         this.append(this.#gridComponant)
 
         this.#game.addEventHandler("clear", () => {
@@ -54,7 +55,7 @@ export class GameComponant extends Componant {
                 data.destTile.x,
                 data.destTile.y
             )
-            this.#scoreComponant.addValue(data.srcTile.oldValue)
+            // this.#scoreComponant.addValue(data.srcTile.oldValue)
         })
     }
 }
