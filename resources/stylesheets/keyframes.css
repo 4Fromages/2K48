@@ -1,0 +1,12 @@
+@keyframes tile-pop {
+    0% {
+        opacity: 0;
+        margin-top: var(--shadow-offset);
+        margin-left: var(--shadow-offset);
+        box-shadow: none;
+    }
+    100% {
+        opacity: 1;
+        margin: 0;
+    }
+}

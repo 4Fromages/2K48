@@ -8,7 +8,7 @@ h1 {
     padding: 5px;
     
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 8vw;
+    font-size: 95px;
     text-align: center;
 }
 
@@ -18,6 +18,7 @@ h1 {
 
 .game-container {
     --gap: 6px;
+    --shadow-offset: calc(var(--gap) / 2);
     --grid-size: 4;
     --grid-width: 300px;
     --grid-height: 300px;
@@ -69,7 +70,7 @@ h1 {
     height: var(--case-height);
 
     border-radius: var(--grid-border-radius);
-    background: #fafafa;
+    background: #eeeeee;
 }
 
 .tile-container {
@@ -82,32 +83,29 @@ h1 {
     --offset-y: calc(var(--case-height) + var(--gap));
     --position-x: 0;
     --position-y: 0;
-    --translate-x: calc(var(--position-x) * var(--offset-x) - var(--gap) / 2);
-    --translate-y: calc(var(--position-y) * var(--offset-y) - var(--gap) / 2);
+    --translate-x: calc(var(--position-x) * var(--offset-x) - var(--shadow-offset));
+    --translate-y: calc(var(--position-y) * var(--offset-y) - var(--shadow-offset));
 
     position: absolute;
     display: inline-block;
     width: var(--case-width);
     height: var(--case-height);
 
-    border-radius: var(--grid-border-radius);
-    background-color: #eee4da;
-
-    text-align: center;
-    line-height: var(--case-height);
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-
     -webkit-transform: translate(var(--translate-x), var(--translate-y));
     -moz-transform: translate(var(--translate-x), var(--translate-y));
     transform: translate(var(--translate-x), var(--translate-y));
 
-    --color: #fff;
+    --color: #000;
     --primary-background: #ffffff;
     --second-background: #f5e0e0;
     --shadow-color: #eac0c0;
     --font-size: 30px;
 
+    text-align: center;
+    line-height: var(--case-height);
+
     color: var(--color);
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
     font-size: var(--font-size);
 
     background: linear-gradient(
@@ -115,8 +113,8 @@ h1 {
         var(--primary-background),
         var(--second-background)
     );
-    box-shadow: calc(var(--gap) / 2) calc(var(--gap) / 2) 0 var(--shadow-color);
     border-radius: var(--grid-border-radius);
+    box-shadow: calc(var(--shadow-offset)) calc(var(--shadow-offset)) 0 var(--shadow-color);
     
     -webkit-transition: 100ms ease-in-out;
     -moz-transition: 100ms ease-in-out;
@@ -124,6 +122,8 @@ h1 {
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
     transition-property: transform;
+
+    animation: tile-pop 100ms linear;
 
 }
 
