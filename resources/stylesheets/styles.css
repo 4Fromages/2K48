@@ -6,10 +6,52 @@ h1 {
     display: block;
     margin: 5px;
     padding: 5px;
-    
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
     font-size: 95px;
     text-align: center;
+}
+
+button {
+    --shadow-offset: 3px;
+    display: inline-block;
+
+    text-align: center;
+    line-height: 25px;
+
+    color: #000;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-size: 20px;
+
+    background: #eee;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 #bbbbbb;
+
+    -webkit-transition: 100ms linear;
+    -moz-transition: 100ms linear;
+    transition: 100ms linear;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
+
+    animation: tile-pop 100ms linear;
+    
+    cursor: pointer;
+    user-select: none;
+
+    -webkit-transition: box-shadow 100ms linear, margin 100ms linear;
+    -moz-transition: box-shadow 100ms linear, margin 100ms linear;
+    transition: box-shadow 100ms linear, margin 100ms linear;
+}
+button:hover {
+    background-color: #ddd;
+}
+button:active {
+    box-shadow: none;
+    margin-top: var(--shadow-offset);
+    margin-left: var(--shadow-offset);
 }
 
 .red {
@@ -83,8 +125,12 @@ h1 {
     --offset-y: calc(var(--case-height) + var(--gap));
     --position-x: 0;
     --position-y: 0;
-    --translate-x: calc(var(--position-x) * var(--offset-x) - var(--shadow-offset));
-    --translate-y: calc(var(--position-y) * var(--offset-y) - var(--shadow-offset));
+    --translate-x: calc(
+        var(--position-x) * var(--offset-x) - var(--shadow-offset)
+    );
+    --translate-y: calc(
+        var(--position-y) * var(--offset-y) - var(--shadow-offset)
+    );
 
     position: absolute;
     display: inline-block;
@@ -114,17 +160,17 @@ h1 {
         var(--second-background)
     );
     border-radius: var(--grid-border-radius);
-    box-shadow: calc(var(--shadow-offset)) calc(var(--shadow-offset)) 0 var(--shadow-color);
-    
-    -webkit-transition: 100ms ease-in-out;
-    -moz-transition: 100ms ease-in-out;
-    transition: 100ms ease-in-out;
+    box-shadow: calc(var(--shadow-offset)) calc(var(--shadow-offset)) 0
+        var(--shadow-color);
+
+    -webkit-transition: 100ms linear;
+    -moz-transition: 100ms linear;
+    transition: 100ms linear;
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
     transition-property: transform;
 
     animation: tile-pop 100ms linear;
-
 }
 
 /* https://coolors.co/ffffff-f5e0e0-eac0c0-d58080-c04040-aa0000-840404-5d0808-370c0c-101010 */
@@ -181,20 +227,20 @@ h1 {
     --color: #fff;
     --primary-background: #840404;
     --second-background: #5d0808;
-    --shadow-color: #240E0E;
+    --shadow-color: #240e0e;
 }
 
 .tile.tile-value-512 {
     --color: #fff;
     --primary-background: #5d0808;
-    --second-background: #240E0E;
+    --second-background: #240e0e;
     --shadow-color: #370c0c;
 }
 
 .tile.tile-value-1024 {
     --color: #fff;
     --font-size: 25px;
-    --primary-background: #240E0E;
+    --primary-background: #240e0e;
     --second-background: #370c0c;
     --shadow-color: #101010;
 }

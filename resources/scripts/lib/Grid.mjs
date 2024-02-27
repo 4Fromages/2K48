@@ -85,16 +85,14 @@ export class Grid extends Observable {
     removeTile(tile) {
         const index = this.tiles.indexOf(tile)
         if (index == -1) return
-        return this.tiles.splice(index, 1)
+        return this.tiles.splice(index, 1)[0]
     }
 
     /**
      * Removes all the tile from the grid
      */
     clear() {
-        for (const tile of this.tiles) {
-            this.removeTile(tile)
-        }
+        this.tiles.splice(0, this.tiles.length)
         this.emitEvent("clear")
     }
 

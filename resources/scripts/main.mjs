@@ -3,6 +3,7 @@ import { GameComponant } from "./lib/componants/GameComponant.mjs"
 
 window.addEventListener("load", () => {
     const appContainer = document.querySelector(".app")
+    const restartButton = document.querySelector("button.restart-button")
     const game = new Game()
     const gameComponant = new GameComponant(game)
     gameComponant.mount(appContainer)
@@ -18,6 +19,10 @@ window.addEventListener("load", () => {
         localStorage.setItem("game-data", game.serialize())
     })
 
+    game.addEventHandler("clear", () => {
+        localStorage.removeItem("game-data")
+    })
+
     document.addEventListener("swipeup",    () => game.swipeUp())
     document.addEventListener("swipedown",  () => game.swipeDown())
     document.addEventListener("swipeleft",  () => game.swipeLeft())
@@ -31,4 +36,6 @@ window.addEventListener("load", () => {
             case "ArrowRight": game.swipeRight(); break
         }
     })
+
+    restartButton.addEventListener("click", () => game.restart())
 })

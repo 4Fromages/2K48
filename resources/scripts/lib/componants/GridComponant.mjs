@@ -54,8 +54,9 @@ export class GridComponant extends Componant {
 
     clearTiles() {
         for (const tileComponant of this.tiles) {
-            this.removeTile(tileComponant)
+            tileComponant.remove()
         }
+        this.tiles.splice(0, this.tiles.length)
     }
 
     getTileAt(x, y) {

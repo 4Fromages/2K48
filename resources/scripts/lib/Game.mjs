@@ -20,10 +20,14 @@ export class Game extends Observable {
      * Starts or restarts a game
      */
     start() {
-        this.#grid.clear()
         this.#grid.spawnTile()
         this.#grid.spawnTile()
         this.emitEvent("start")
+    }
+
+    restart() {
+        this.#grid.clear()
+        this.start()
     }
 
     /**
