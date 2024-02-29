@@ -14,6 +14,8 @@ export class Game extends Observable {
         this.spreadEvent("slide", this.#grid)
         this.spreadEvent("merge", this.#grid)
         this.spreadEvent("clear", this.#grid)
+        this.spreadEvent("game-lost", this.#grid)
+        this.spreadEvent("game-won", this.#grid)
     }
 
     /**

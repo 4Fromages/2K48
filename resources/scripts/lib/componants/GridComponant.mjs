@@ -1,10 +1,12 @@
 import { Grid } from "../Grid.mjs";
 import { Componant } from "./Componant.mjs";
+import { ModalComponant } from "./ModalComponant.mjs";
 import { TileComponant } from "./TileComponant.mjs";
 
 export class GridComponant extends Componant {
     #gridContainer = null
     #tileContainer = null
+    #modalComponant = null
     tiles = new Array()
 
     constructor() {
@@ -80,5 +82,17 @@ export class GridComponant extends Componant {
         srcTileComponant.setCoords(destX, destY)
         srcTileComponant.doubleValue()
         this.removeTile(destTileComponant)
+    }
+
+    showModal() {
+        this.#modalComponant.show()
+    }
+
+    hideModal() {
+        this.#modalComponant.hide()
+    }
+
+    setModalTitle(title) {
+        this.#modalComponant.setTitle(title)
     }
 }

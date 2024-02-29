@@ -6,7 +6,7 @@ export class GameComponant extends Componant {
     #game = null
     #gameContainer = null
     #gridComponant = null
-    #scoreComponant = null
+    // #scoreComponant = null
 
     constructor(game) {
         super()

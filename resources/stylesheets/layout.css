@@ -1,1 +1,307 @@
 @import "./vars.css";
+
+.app-container {
+    --app-width: 300px;
+
+    display: block;
+    width: var(--app-width);
+    margin: auto;
+}
+
+.game-container {
+    --gap: 6px;
+    --shadow-offset: calc(var(--gap) / 2);
+    --grid-size: 4;
+    --grid-width: var(--app-width);
+    --grid-height: var(--app-width);
+    --grid-border-radius: var(--gap);
+
+    --case-width: calc(
+        (var(--grid-width) - var(--gap)) / var(--grid-size) - var(--gap)
+    );
+    --case-height: calc(
+        (var(--grid-height) - var(--gap)) / var(--grid-size) - var(--gap)
+    );
+    display: block;
+    width: var(--grid-width);
+    height: var(--grid-height);
+
+    user-select: none;
+}
+
+.grid-container {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    width: var(--grid-width);
+    height: var(--grid-height);
+    padding: var(--gap);
+    gap: var(--gap);
+
+    border-radius: var(--grid-border-radius);
+    background: #ffffff;
+}
+
+.grid-row {
+    --grid-row-width: calc(var(--grid-row-width) - 2 * var(--gap));
+    --grid-row-height: var(--case-height);
+    display: flex;
+    width: var(--grid-row-width);
+    height: var(--grid-row-height);
+    gap: var(--gap);
+}
+
+.grid-case {
+    display: inline;
+    flex: 1;
+    align-items: center;
+    width: var(--case-height);
+    height: var(--case-height);
+
+    border-radius: var(--grid-border-radius);
+    background: #eeeeee;
+}
+
+.tile-container {
+    position: absolute;
+    display: inline-block;
+}
+
+.tile {
+    --offset-x: calc(var(--case-width) + var(--gap));
+    --offset-y: calc(var(--case-height) + var(--gap));
+    --position-x: 0;
+    --position-y: 0;
+    --translate-x: calc(
+        var(--position-x) * var(--offset-x) - var(--shadow-offset)
+    );
+    --translate-y: calc(
+        var(--position-y) * var(--offset-y) - var(--shadow-offset)
+    );
+
+    position: absolute;
+    display: inline-block;
+    width: var(--case-width);
+    height: var(--case-height);
+
+    -webkit-transform: translate(var(--translate-x), var(--translate-y));
+    -moz-transform: translate(var(--translate-x), var(--translate-y));
+    transform: translate(var(--translate-x), var(--translate-y));
+
+    --color: #000;
+    --primary-background: #ffffff;
+    --second-background: #f5e0e0;
+    --shadow-color: #eac0c0;
+    --font-size: 30px;
+
+    text-align: center;
+    line-height: var(--case-height);
+
+    color: var(--color);
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-size: var(--font-size);
+
+    background: linear-gradient(
+        145deg,
+        var(--primary-background),
+        var(--second-background)
+    );
+    border-radius: var(--grid-border-radius);
+    box-shadow: calc(var(--shadow-offset)) calc(var(--shadow-offset)) 0
+        var(--shadow-color);
+
+    -webkit-transition: 100ms linear;
+    -moz-transition: 100ms linear;
+    transition: 100ms linear;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
+
+    animation: tile-pop 100ms linear;
+}
+
+/* https://coolors.co/ffffff-f5e0e0-eac0c0-d58080-c04040-aa0000-840404-5d0808-370c0c-101010 */
+.tile.tile-value-2 {
+    --color: #000;
+    --primary-background: #ffffff;
+    --second-background: #f5e0e0;
+    --shadow-color: #eac0c0;
+}
+
+.tile.tile-value-4 {
+    --color: #000;
+    --primary-background: #f5e0e0;
+    --second-background: #eac0c0;
+    --shadow-color: #d58080;
+}
+
+.tile.tile-value-8 {
+    --color: #000;
+    --primary-background: #eac0c0;
+    --second-background: #d58080;
+    --shadow-color: #cb6060;
+}
+
+.tile.tile-value-16 {
+    --color: #000;
+    --primary-background: #d58080;
+    --second-background: #cb6060;
+    --shadow-color: #c04040;
+}
+
+.tile.tile-value-32 {
+    --color: #000;
+    --primary-background: #cb6060;
+    --second-background: #c04040;
+    --shadow-color: #aa0000;
+}
+
+.tile.tile-value-64 {
+    --color: #fff;
+    --primary-background: #c04040;
+    --second-background: #aa0000;
+    --shadow-color: #840404;
+}
+
+.tile.tile-value-128 {
+    --color: #fff;
+    --primary-background: #aa0000;
+    --second-background: #840404;
+    --shadow-color: #5d0808;
+}
+
+.tile.tile-value-256 {
+    --color: #fff;
+    --primary-background: #840404;
+    --second-background: #5d0808;
+    --shadow-color: #240e0e;
+}
+
+.tile.tile-value-512 {
+    --color: #fff;
+    --primary-background: #5d0808;
+    --second-background: #240e0e;
+    --shadow-color: #370c0c;
+}
+
+.tile.tile-value-1024 {
+    --color: #fff;
+    --font-size: 25px;
+    --primary-background: #240e0e;
+    --second-background: #370c0c;
+    --shadow-color: #101010;
+}
+
+.tile.tile-value-2048 {
+    --color: #fff;
+    --font-size: 25px;
+    --primary-background: #101010;
+    --second-background: #000000;
+    --shadow-color: #000000;
+}
+
+.tile.tile-value-4096 {
+    --color: #fff;
+    --font-size: 25px;
+    --primary-background: #101010;
+    --second-background: #000000;
+    --shadow-color: #000000;
+}
+
+.tile.tile-value-8192 {
+    --color: #fff;
+    --font-size: 25px;
+    --primary-background: #101010;
+    --second-background: #000000;
+    --shadow-color: #000000;
+}
+
+.tile.tile-position-0-0 {
+    --position-x: 0;
+    --position-y: 0;
+}
+
+.tile.tile-position-1-0 {
+    --position-x: 1;
+    --position-y: 0;
+}
+
+.tile.tile-position-2-0 {
+    --position-x: 2;
+    --position-y: 0;
+}
+
+.tile.tile-position-3-0 {
+    --position-x: 3;
+    --position-y: 0;
+}
+
+.tile.tile-position-0-1 {
+    --position-x: 0;
+    --position-y: 1;
+}
+
+.tile.tile-position-1-1 {
+    --position-x: 1;
+    --position-y: 1;
+}
+
+.tile.tile-position-2-1 {
+    --position-x: 2;
+    --position-y: 1;
+}
+
+.tile.tile-position-3-1 {
+    --position-x: 3;
+    --position-y: 1;
+}
+
+.tile.tile-position-0-2 {
+    --position-x: 0;
+    --position-y: 2;
+}
+
+.tile.tile-position-1-2 {
+    --position-x: 1;
+    --position-y: 2;
+}
+
+.tile.tile-position-2-2 {
+    --position-x: 2;
+    --position-y: 2;
+}
+
+.tile.tile-position-3-2 {
+    --position-x: 3;
+    --position-y: 2;
+}
+
+.tile.tile-position-0-3 {
+    --position-x: 0;
+    --position-y: 3;
+}
+
+.tile.tile-position-1-3 {
+    --position-x: 1;
+    --position-y: 3;
+}
+
+.tile.tile-position-2-3 {
+    --position-x: 2;
+    --position-y: 3;
+}
+
+.tile.tile-position-3-3 {
+    --position-x: 3;
+    --position-y: 3;
+}
+
+.app-footer {
+    display: flex;
+}
+
+.app-footer button.restart-button {
+    display: block;
+    margin: 20px auto;
+}

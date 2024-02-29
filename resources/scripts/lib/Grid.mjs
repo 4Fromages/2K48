@@ -143,6 +143,8 @@ export class Grid extends Observable {
             this.spawnTile()
             this.#setTilesSwipable()
             this.emitEvent("move", { direction: moveStrategy.direction })
+            if (this.isGameLost()) this.emitEvent("game-lost")
+            if (this.isGameWon()) this.emitEvent("game-won")
         }
     }
 
@@ -176,7 +178,7 @@ export class Grid extends Observable {
         ]
         return (
             !this.hasEmptyCases() &&
-            moveStrategies.some((strategy) => !strategy.hasTransferableTiles())
+            moveStrategies.every((strategy) => !strategy.hasTransferableTiles())
         )
     }
 
@@ -187,18 +189,7 @@ export class Grid extends Observable {
      * @returns {boolean}
      */
     isGameWon() {
-        for (let x = 0; x < Grid.getSize(); x++) {
-            for (let y = 0; y < Grid.getSize(); y++) {
-                const c = this.getCase(x, y)
-                if (
-                    c.getTileAt() != null &&
-                    c.getCase().value >= Grid.getObjective()
-                ) {
-                    return true
-                }
-            }
-        }
-        return false
+        return this.tiles.some(tile => tile.getValue() >= Grid.#OBJECTIVE)
     }
 
     /**
