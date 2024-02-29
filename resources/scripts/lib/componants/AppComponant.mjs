@@ -1,7 +1,6 @@
 import { Game } from "../Game.mjs";
 import { Componant } from "./Componant.mjs";
 import { GameComponant } from "./GameComponant.mjs";
-import { ModalComponant } from "./ModalComponant.mjs";
 
 export class AppComponant extends Componant {
     #game = null
