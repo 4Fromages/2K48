@@ -1,6 +1,10 @@
-    @import "./vars.css";
+@import "./vars.css";
 @import "./reset.css";
 @import "./keyframes.css";
+
+html, body {
+    overscroll-behavior: none;
+}
 
 h1 {
     display: block;
