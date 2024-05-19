@@ -1,21 +1,14 @@
-import { Grid } from "./Grid.mjs"
-import { Observable } from "./Observable.mjs"
-import { Tile } from "./Tile.mjs"
+import { Observer } from "../util/Observer.mjs"
 
-export class Game extends Observable {
+import { TileModel } from "./TileModel.mjs"
+import { GridModel } from "./GridModel.mjs"
+
+export class GameModel {
     #grid = null
 
     constructor() {
-        super()
-        this.#grid = new Grid()
-
-        this.spreadEvent("move", this.#grid)
-        this.spreadEvent("spawn", this.#grid)
-        this.spreadEvent("slide", this.#grid)
-        this.spreadEvent("merge", this.#grid)
-        this.spreadEvent("clear", this.#grid)
-        this.spreadEvent("game-lost", this.#grid)
-        this.spreadEvent("game-won", this.#grid)
+        this.#grid = new GridModel()
+        this.observer = this.#grid.observer
     }
 
     /**
@@ -24,7 +17,7 @@ export class Game extends Observable {
     start() {
         this.#grid.spawnTile()
         this.#grid.spawnTile()
-        this.emitEvent("start")
+        this.observer.fire("start")
     }
 
     restart() {
@@ -75,9 +68,9 @@ export class Game extends Observable {
         const o = JSON.parse(string)
         for (const tileObject of o.grid.tiles) {
             const { x, y, value } = tileObject
-            this.#grid.addTile(new Tile(x, y, value))
-            this.emitEvent("spawn", { tile: tileObject })
+            this.#grid.addTile(new TileModel(x, y, value))
+            this.observer.fire("spawn", { tile: tileObject })
         }
-        this.emitEvent("start")
+        this.observer.fire("start")
     }
 }

@@ -1,6 +1,5 @@
 import { Componant } from "./Componant.mjs"
 import { GridComponant } from "./GridComponant.mjs"
-import { ScoreComponant } from "./ScoreComponant.mjs"
 
 export class GameComponant extends Componant {
     #game = null
@@ -33,14 +32,14 @@ export class GameComponant extends Componant {
         this.#gridComponant = new GridComponant()
         this.append(this.#gridComponant)
 
-        this.#game.addEventHandler("clear", () => {
+        this.#game.observer.on("clear", () => {
             this.#gridComponant.clearTiles()
         })
-        this.#game.addEventHandler("spawn", (data) => {
+        this.#game.observer.on("spawn", (data) => {
             const { x, y, value } = data.tile
             this.#gridComponant.createTile(x, y, value)
         })
-        this.#game.addEventHandler("slide", (data) => {
+        this.#game.observer.on("slide", (data) => {
             this.#gridComponant.moveTile(
                 data.srcTile.x,
                 data.srcTile.y,
@@ -48,7 +47,7 @@ export class GameComponant extends Componant {
                 data.destTile.y
             )
         })
-        this.#game.addEventHandler("merge", (data) => {
+        this.#game.observer.on("merge", (data) => {
             this.#gridComponant.mergeTile(
                 data.srcTile.x,
                 data.srcTile.y,

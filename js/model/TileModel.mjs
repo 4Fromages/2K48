@@ -1,4 +1,4 @@
-export class Tile {
+export class TileModel {
     #value = null
     #x = null
     #y = null
@@ -51,7 +51,7 @@ export class Tile {
      * Returns true if the tile can be merge with the specified tile,
      * i.e. if they have not just merged and if the have the same value,
      * returns false otherwise
-     * @param {Tile | null} tile
+     * @param {TileModel | null} tile
      * @returns {boolean}
      */
     isMergeableWith(tile) {
@@ -65,11 +65,11 @@ export class Tile {
 
     /**
      * Generates a low tile at random (with value 2 or 4)
-     * @returns {Tile}
+     * @returns {TileModel}
      */
     static createRandomLowTile(x, y) {
         const randomValue = 2 ** (Math.floor(Math.random() * 2) + 1)
-        return new Tile(x, y, randomValue)
+        return new TileModel(x, y, randomValue)
     }
 
     toObject() {

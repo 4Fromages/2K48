@@ -1,5 +1,6 @@
-import { Util } from "../Utils.mjs"
 import { Componant } from "./Componant.mjs"
+
+import { Util } from "../../util/Utils.mjs"
 
 export class TileComponant extends Componant {
     #tileContainer = null

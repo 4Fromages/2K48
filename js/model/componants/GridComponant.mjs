@@ -1,4 +1,5 @@
-import { Grid } from "../Grid.mjs";
+import { GridModel } from "../GridModel.mjs";
+
 import { Componant } from "./Componant.mjs";
 import { TileComponant } from "./TileComponant.mjs";
 
@@ -20,11 +21,11 @@ export class GridComponant extends Componant {
         this.#gridContainer = document.createElement("div")
         this.#gridContainer.classList.add("grid-container")
 
-        for (let i = 0; i < Grid.getSize(); i++) {
+        for (let i = 0; i < GridModel.getSize(); i++) {
             const gridRow = document.createElement("div")
             gridRow.classList.add("grid-row")
 
-            for (let j = 0; j < Grid.getSize(); j++) {
+            for (let j = 0; j < GridModel.getSize(); j++) {
                 const gridCase = document.createElement("div")
                 gridCase.classList.add("grid-case")
                 gridRow.appendChild(gridCase)

@@ -1,4 +1,5 @@
-import { Game } from "../Game.mjs";
+import { GameModel } from "../GameModel.mjs";
+
 import { Componant } from "./Componant.mjs";
 import { GameComponant } from "./GameComponant.mjs";
 
@@ -18,8 +19,8 @@ export class AppComponant extends Componant {
             this.#game.deserialize(gameData)
         }
     
-        this.#game.addEventHandler("move", () => localStorage.setItem("game-data", this.#game.serialize()))
-        this.#game.addEventHandler("clear", () => localStorage.removeItem("game-data"))
+        this.#game.observer.on("move", () => localStorage.setItem("game-data", this.#game.serialize()))
+        this.#game.observer.on("clear", () => localStorage.removeItem("game-data"))
 
         document.addEventListener("swipeup",    () => this.#game.swipeUp())
         document.addEventListener("swipedown",  () => this.#game.swipeDown())
@@ -41,7 +42,7 @@ export class AppComponant extends Componant {
     }
 
     create() {
-        this.#game = new Game()
+        this.#game = new GameModel()
 
         this.#appContainer = document.createElement("div")
         this.#appContainer.classList.add("app-container")
