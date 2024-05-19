@@ -1,9 +1,4 @@
-import { GameModel } from "../GameModel.mjs";
-
-import { Componant } from "./Componant.mjs";
-import { GameComponant } from "./GameComponant.mjs";
-
-export class AppComponant extends Componant {
+class AppComponant extends Componant {
     #game = null
     #appContainer = null
     #gameComponant = null

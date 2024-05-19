@@ -1,4 +1,4 @@
-export class Componant {
+class Componant {
     #parent = null
 
     constructor() {

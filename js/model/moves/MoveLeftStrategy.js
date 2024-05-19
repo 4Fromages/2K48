@@ -1,6 +1,4 @@
-import { MoveStrategy } from "./MoveStrategy.mjs"
-
-export class MoveLeftStrategy extends MoveStrategy {
+class MoveLeftStrategy extends MoveStrategy {
     #grid    
 
     constructor(grid) {

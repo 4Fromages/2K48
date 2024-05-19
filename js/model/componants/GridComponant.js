@@ -1,9 +1,4 @@
-import { GridModel } from "../GridModel.mjs";
-
-import { Componant } from "./Componant.mjs";
-import { TileComponant } from "./TileComponant.mjs";
-
-export class GridComponant extends Componant {
+class GridComponant extends Componant {
     #gridContainer = null
     #tileContainer = null
     tiles = new Array()

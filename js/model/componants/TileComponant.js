@@ -1,8 +1,4 @@
-import { Componant } from "./Componant.mjs"
-
-import { Util } from "../../util/Utils.mjs"
-
-export class TileComponant extends Componant {
+class TileComponant extends Componant {
     #tileContainer = null
     #tileInner = null
     #x = null
@@ -48,7 +44,7 @@ export class TileComponant extends Componant {
             }
         }
         this.#tileContainer.classList.add(`tile-value-${value}`)
-        this.#tileInner.innerHTML = Util.parseK4Number(value)
+        this.#tileInner.innerHTML = Utils.parseK4Number(value)
     }
 
     doubleValue() {

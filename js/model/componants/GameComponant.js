@@ -1,7 +1,4 @@
-import { Componant } from "./Componant.mjs"
-import { GridComponant } from "./GridComponant.mjs"
-
-export class GameComponant extends Componant {
+class GameComponant extends Componant {
     #game = null
     #gameContainer = null
     #gridComponant = null

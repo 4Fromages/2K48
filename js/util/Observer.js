@@ -4,7 +4,7 @@
  * @constructor
  * @public
  */
-export class Observer {
+class Observer {
     /**
      * Map associating handlers with their event name.
      * @type {Map<string, Function}

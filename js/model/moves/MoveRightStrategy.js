@@ -1,20 +1,18 @@
-import { MoveStrategy } from "./MoveStrategy.mjs"
-
-export class MoveDownStrategy extends MoveStrategy {
+class MoveRightStrategy extends MoveStrategy {
     #grid
 
     constructor(grid) {
         super(grid)
         this.#grid = grid
-        this.direction = "down"
+        this.direction = "right"
     }
 
     getFirstMoveableTile() {
         this.#grid.tiles.sort((tileA, tileB) => {
-            if (tileA.getX() > tileB.getX()) return 1
-            if (tileA.getX() < tileB.getX()) return -1
             if (tileA.getY() > tileB.getY()) return 1
             if (tileA.getY() < tileB.getY()) return -1
+            if (tileA.getX() > tileB.getX()) return 1
+            if (tileA.getX() < tileB.getX()) return -1
             return 0
         })
         return super.getFirstMoveableTile()
@@ -22,20 +20,20 @@ export class MoveDownStrategy extends MoveStrategy {
 
     getFirstMergeableTile() {
         this.#grid.tiles.sort((tileA, tileB) => {
-            if (tileA.getX() > tileB.getX()) return -1
-            if (tileA.getX() < tileB.getX()) return 1
             if (tileA.getY() > tileB.getY()) return -1
             if (tileA.getY() < tileB.getY()) return 1
+            if (tileA.getX() > tileB.getX()) return -1
+            if (tileA.getX() < tileB.getX()) return 1
             return 0
         })
         return super.getFirstMergeableTile()
     }
-    
+
     getNextCoords(tile) {
-        return [tile.getX(), tile.getY() + 1]
+        return [tile.getX() + 1, tile.getY()]
     }
-    
+
     getPreviousCoords(tile) {
-        return [tile.getX(), tile.getY() - 1]
+        return [tile.getX() - 1, tile.getY()]
     }
 }

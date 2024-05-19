@@ -1,4 +1,4 @@
-export class Util {
+class Utils {
     static parseK4Number(n) {
         const stringNumber = n.toString()
         const commaIndex = stringNumber.indexOf(".")

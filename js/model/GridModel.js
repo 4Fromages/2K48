@@ -1,14 +1,4 @@
-import { Observer } from "../util/Observer.mjs"
-
-import { TileModel } from "./TileModel.mjs"
-
-import { MoveStrategy } from "./moves/MoveStrategy.mjs"
-import { MoveUpStrategy } from "./moves/MoveUpStrategy.mjs"
-import { MoveDownStrategy } from "./moves/MoveDownStrategy.mjs"
-import { MoveLeftStrategy } from "./moves/MoveLeftStrategy.mjs"
-import { MoveRightStrategy } from "./moves/MoveRightStrategy.mjs"
-
-export class GridModel {
+class GridModel {
     static #SIZE = 4
     static #BASE = 2
     static #OBJECTIVE = GridModel.#BASE ** 11

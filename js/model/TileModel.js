@@ -1,4 +1,4 @@
-export class TileModel {
+class TileModel {
     #value = null
     #x = null
     #y = null

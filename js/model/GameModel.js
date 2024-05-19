@@ -1,9 +1,4 @@
-import { Observer } from "../util/Observer.mjs"
-
-import { TileModel } from "./TileModel.mjs"
-import { GridModel } from "./GridModel.mjs"
-
-export class GameModel {
+class GameModel {
     #grid = null
 
     constructor() {

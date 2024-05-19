@@ -1,6 +1,4 @@
-import { Componant } from "./Componant.mjs";
-
-export class ScoreComponant extends Componant {
+class ScoreComponant extends Componant {
     #scoreContainer = null
     #scoreInner = null
     #value = 0
