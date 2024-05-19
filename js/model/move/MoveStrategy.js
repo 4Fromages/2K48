@@ -1,4 +1,4 @@
-export class MoveStrategy {
+class MoveStrategy {
     #grid = null
 
     constructor(grid) {
