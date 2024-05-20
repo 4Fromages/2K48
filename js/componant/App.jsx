@@ -118,7 +118,7 @@ function App() {
         <div className="app-container">
             <div className="app-header">
                 <div className="logo-container">
-                    <img src="./assets/images/logo.svg" alt="2K48" className="logo"/>
+                    <img src="./assets/images/logo.svg" alt="2K48" className="logo" draggable="false"/>
                 </div>
                 <div className="controls-container">
                     <Score label="Score" score={actualScore} />
