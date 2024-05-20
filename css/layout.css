@@ -3,12 +3,6 @@
 .app-container {
     --app-width: 300px;
 
-    display: block;
-    width: var(--app-width);
-    margin: auto;
-}
-
-.game-container {
     --gap: 6px;
     --shadow-offset: calc(var(--gap) / 2);
     --grid-size: 4;
@@ -16,20 +10,26 @@
     --grid-height: var(--app-width);
     --grid-border-radius: var(--gap);
 
+    display: block;
+    width: var(--app-width);
+    margin: auto;
+}
+
+.app-content {
+    display: block;
+    width: var(--grid-width);
+    height: var(--grid-height);
+}
+
+.grid-container {
     --case-width: calc(
         (var(--grid-width) - var(--gap)) / var(--grid-size) - var(--gap)
     );
     --case-height: calc(
         (var(--grid-height) - var(--gap)) / var(--grid-size) - var(--gap)
     );
-    display: block;
-    width: var(--grid-width);
-    height: var(--grid-height);
 
     user-select: none;
-}
-
-.grid-container {
     position: absolute;
     display: flex;
     flex-wrap: wrap;
@@ -114,11 +114,15 @@
     -webkit-transition: 100ms linear;
     -moz-transition: 100ms linear;
     transition: 100ms linear;
-    -webkit-transition-property: -webkit-transform;
-    -moz-transition-property: -moz-transform;
-    transition-property: transform;
+    -webkit-transition-property: -webkit-transform, visibility;
+    -moz-transition-property: -moz-transform, visibility;
+    transition-property: transform, visibility;
 
     animation: tile-pop 100ms linear;
+}
+
+.tile.hidden {
+    visibility: hidden;
 }
 
 /* https://coolors.co/ffffff-f5e0e0-eac0c0-d58080-c04040-aa0000-840404-5d0808-370c0c-101010 */

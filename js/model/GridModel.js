@@ -94,37 +94,31 @@ class GridModel {
     /**
      * Transfer the tile from this case to the specified case, if the case
      * is not empty, merges it
-     * @param {Case} destCase
+     * @param {number} srcX
+     * @param {number} srcY
+     * @param {number} destX
+     * @param {number} destY
      */
     transferTile(srcX, srcY, destX, destY) {
         const srcTile = this.getTileAt(srcX, srcY)
         const destTile = this.getTileAt(destX, destY)
-        let data = {
-            srcTile: {
-                x: srcX,
-                y: srcY,
-                oldValue: srcTile.getValue(),
-                newValue: null,
-            },
-            destTile: {
-                x: destX,
-                y: destY,
-                oldValue: null,
-                newValue: null,
-            },
-        }
+
         if (destTile === null) {
             srcTile.setCoords(destX, destY)
-            data.destTile.oldValue = null
-            data.destTile.newValue = srcTile.getValue()
-            this.observer.fire("slide", data)
+
+            this.observer.fire("slide", {
+                srcTile:  { x: srcX,  y: srcY,  value: srcTile.getValue(), },
+                destTile: { x: destX, y: destY, value: srcTile.getValue(), },
+            })
         } else {
             this.removeTile(srcTile)
             destTile.doubleValue()
             destTile.hasJustMerged = true
-            data.destTile.oldValue = srcTile.getValue()
-            data.destTile.newValue = destTile.getValue()
-            this.observer.fire("merge", data)
+            
+            this.observer.fire("merge", {
+                srcTile:  { x: srcX,  y: srcY,  value: srcTile.getValue(), },
+                destTile: { x: destX, y: destY, value: destTile.getValue(), },
+            })
         }
     }
 
