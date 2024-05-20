@@ -9,6 +9,7 @@ html, body {
 h1 {
     display: block;
     margin: 5px;
+    margin-bottom: 30px;
     padding: 5px;
 
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
@@ -28,7 +29,7 @@ button {
     font-size: 20px;
 
     background: #eee;
-    padding: 5px 20px;
+    padding: 5px;
     border: none;
     border-radius: 5px;
     box-shadow: var(--shadow-offset) var(--shadow-offset) 0 #bbbbbb;
@@ -49,12 +50,20 @@ button {
     -moz-transition: box-shadow 100ms linear, -moz-transform 100ms linear;
     transition: box-shadow 100ms linear, transform 100ms linear;
 }
-button:hover {
+button:not(:disabled):hover {
     background-color: #ddd;
 }
-button:active {
+button:not(:disabled):active {
     box-shadow: none;
     transform: translate(var(--shadow-offset), var(--shadow-offset));
+}
+button:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+button.icon-button {
+    width: 40px;
+    height: 40px;
 }
 
 .red {

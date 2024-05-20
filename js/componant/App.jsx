@@ -2,6 +2,8 @@ const game = new GameModel()
 
 function App() {
     const [tiles, setTiles] = React.useState([])
+    const [actualScore, setActualScore] = React.useState(parseInt(localStorage.getItem("actual-score")) || 0)
+    const [bestScore, setBestScore] = React.useState(parseInt(localStorage.getItem("best-score")) || 0)
     
     React.useEffect(() => {
         game.observer.on("spawn", handleSpawn)
@@ -38,6 +40,18 @@ function App() {
             document.removeEventListener("swiperight", handleSwipeRight)
         }
     }, [])
+
+    React.useEffect(() => {
+        localStorage.setItem("actual-score", actualScore)
+
+        if (actualScore > bestScore) {
+            localStorage.setItem("best-score", actualScore)
+            setBestScore(actualScore)
+        } else {
+            localStorage.setItem("best-score", bestScore)
+        }
+    }, [actualScore, bestScore])
+
     const handleKeyDown = e => {
         switch (e.key) {
             case "ArrowUp":    game.swipeUp();    break
@@ -51,10 +65,12 @@ function App() {
     const handleSwipeLeft = () => game.swipeLeft()
     const handleSwipeRight = () => game.swipeRight()
     const handleSpawn = data => {
+        setActualScore(value => value + data.tile.value)
         setTiles(value => [...value, {...data.tile, hidden: false}])
     }
     const handleClear = () => {
         setTiles([])
+        setActualScore(0)
         localStorage.removeItem("game-data")
     }
     const handleMove = () => {
@@ -76,8 +92,12 @@ function App() {
             return value
         })
     }
-    const handleGameWon  = () => { alert("Gagné") }
-    const handleGameLost = () => { alert("Perdu") }
+    const handleGameWon  = () => {
+        setTimeout(() => alert("Gagné"), 1000)
+    }
+    const handleGameLost = () => {
+        setTimeout(() => alert("Perdu"), 1000)
+    }
     const handleReset = () => {
         if (confirm("Êtes-vous sûr de vouloir recommencer ?"))
             game.restart()
@@ -89,14 +109,18 @@ function App() {
                 <h1>
                     2<span className="red" dangerouslySetInnerHTML={{__html: '&Kopf;4'}}></span>8
                 </h1>
+                <div className="controls-container">
+                    <Score label="Score" score={actualScore} />
+                    <Score label="Record" score={bestScore} />
+                    <button className="icon-button mute-button" disabled>S</button>
+                    <button className="icon-button restart-button" onClick={handleReset}>R</button>
+                    <button className="icon-button info-button" disabled>I</button>
+                </div>
             </div>
             <div className="app-content">
                 <Grid tiles={ tiles }/>
             </div>
             <div className="app-footer">
-                <button className="restart-button" onClick={handleReset}>
-                    Recommencer
-                </button>
             </div>
         </div>
     )

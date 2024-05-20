@@ -15,6 +15,48 @@
     margin: auto;
 }
 
+.controls-container {
+    display: flex;
+    gap: var(--gap);
+
+    padding: var(--gap)
+}
+
+.score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    
+    padding: 2px;
+
+    border-radius: var(--grid-border-radius);
+    border: 2px solid #333;
+
+    background-color: #fff;
+
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+    user-select: none;
+    cursor: default;
+}
+
+.score-container .score-label {
+    position: absolute;
+    
+    background-color: #fff;
+    padding: 2px 5px;
+    margin-top: -40px;
+    font-size: small;
+}
+
+.score-container .score-content {
+    font-weight: bold;
+    font-size: x-large;
+}
+
 .app-content {
     display: block;
     width: var(--grid-width);
@@ -299,13 +341,4 @@
 .tile.tile-position-3-3 {
     --position-x: 3;
     --position-y: 3;
-}
-
-.app-footer {
-    display: flex;
-}
-
-.app-footer button.restart-button {
-    display: block;
-    margin: 20px auto;
 }
