@@ -4,6 +4,9 @@ let yDown = null
 document.addEventListener("touchstart", handleTouchStart, false)
 document.addEventListener("touchmove", handleTouchMove, false)
 
+document.addEventListener("mousedown", handleMouseDown, false)
+document.addEventListener("mouseup", handleMouseUp, false)
+
 function getTouches(e) {
     return e.touches || e.originalEvent.touches
 }
@@ -15,13 +18,26 @@ function handleTouchStart(e) {
 }
 
 function handleTouchMove(e) {
-    if (!xDown || !yDown) {
-        return
-    }
+    if (!xDown || !yDown) return
+    let xUp = getTouches(e)[0].clientX
+    let yUp = getTouches(e)[0].clientY
+    emitSwipeEvent(xUp, yUp)
+}
 
-    let xUp = e.touches[0].clientX
-    let yUp = e.touches[0].clientY
+function handleMouseDown(e) {
+    xDown = e.clientX
+    yDown = e.clientY
+}
 
+function handleMouseUp(e) {
+    if (!xDown || !yDown) return
+    let xUp = e.clientX
+    let yUp = e.clientY
+    if (xDown == xUp && yUp == yDown) return
+    emitSwipeEvent(xUp, yUp)
+}
+
+function emitSwipeEvent(xUp, yUp) {
     let xDiff = xDown - xUp
     let yDiff = yDown - yUp
     let eventName = null
