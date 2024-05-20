@@ -4,13 +4,13 @@ function App() {
     const [tiles, setTiles] = React.useState([])
     const [actualScore, setActualScore] = React.useState(parseInt(localStorage.getItem("actual-score")) || 0)
     const [bestScore, setBestScore] = React.useState(parseInt(localStorage.getItem("best-score")) || 0)
+    const [isSoundOn, setSoundOn] = React.useState(true)
     
     React.useEffect(() => {
         game.observer.on("spawn", handleSpawn)
         game.observer.on("clear", handleClear)
         game.observer.on("move", handleMove)
         game.observer.on("slide", handleSlide)
-        game.observer.on("merge", handleMerge)
         game.observer.on("game-lost", handleGameLost)
         game.observer.on("game-won", handleGameWon)
 
@@ -30,7 +30,6 @@ function App() {
             game.observer.off("clear", handleClear)
             game.observer.off("move",  handleMove)
             game.observer.off("slide", handleSlide)
-            game.observer.off("merge", handleMerge)
             game.observer.off("game-lost", handleGameLost)
             game.observer.off("game-won",  handleGameWon)
             document.removeEventListener("keydown", handleKeyDown)
@@ -40,6 +39,14 @@ function App() {
             document.removeEventListener("swiperight", handleSwipeRight)
         }
     }, [])
+
+    React.useEffect(() => {
+        game.observer.on("merge", handleMerge)
+
+        return () => {
+            game.observer.off("merge", handleMerge)
+        }
+    }, [isSoundOn])
 
     React.useEffect(() => {
         localStorage.setItem("actual-score", actualScore)
@@ -91,23 +98,16 @@ function App() {
             value[destTileIndex].hidden = true
             return value
         })
+        if (isSoundOn) pop()
     }
     const handleGameWon  = () => {
-        setTimeout(() => alert("Gagné"), 1000)
+        setTimeout(() => alert("Gagné"), 500)
     }
     const handleGameLost = () => {
-        setTimeout(() => alert("Perdu"), 1000)
+        setTimeout(() => alert("Perdu"), 500)
     }
     const handleToggleSound = (e) => {
-        const soundButton = e.target
-
-        if (soundButton.classList.contains("icon-sound-on")) {
-            soundButton.classList.remove("icon-sound-on")
-            soundButton.classList.add("icon-sound-off")
-        } else {
-            soundButton.classList.remove("icon-sound-off")
-            soundButton.classList.add("icon-sound-on")
-        }
+        setSoundOn(!isSoundOn)
     }
     const handleReset = () => {
         if (confirm("Êtes-vous sûr de vouloir recommencer ?"))
@@ -123,7 +123,7 @@ function App() {
                 <div className="controls-container">
                     <Score label="Score" score={actualScore} />
                     <Score label="Record" score={bestScore} />
-                    <button className="icon-button icon-sound-off" disabled onClick={handleToggleSound}></button>
+                    <button className={`icon-button icon-sound-${isSoundOn ? 'on' : 'off'}`} onClick={handleToggleSound}></button>
                     <button className="icon-button icon-reload" onClick={handleReset}></button>
                     <button className="icon-button icon-settings" disabled></button>
                 </div>
@@ -137,3 +137,10 @@ function App() {
     )
 }
 ReactDOM.render(<App />, document.querySelector("div#app"))
+
+function pop() {
+    const audio = new Audio()
+    const n = Math.floor(Math.random() * 3) + 1
+    audio.src = `./assets/sounds/pop-${n}.wav`
+    audio.play()
+}
