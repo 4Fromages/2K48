@@ -98,6 +98,17 @@ function App() {
     const handleGameLost = () => {
         setTimeout(() => alert("Perdu"), 1000)
     }
+    const handleToggleSound = (e) => {
+        const soundButton = e.target
+
+        if (soundButton.classList.contains("icon-sound-on")) {
+            soundButton.classList.remove("icon-sound-on")
+            soundButton.classList.add("icon-sound-off")
+        } else {
+            soundButton.classList.remove("icon-sound-off")
+            soundButton.classList.add("icon-sound-on")
+        }
+    }
     const handleReset = () => {
         if (confirm("Êtes-vous sûr de vouloir recommencer ?"))
             game.restart()
@@ -106,15 +117,15 @@ function App() {
     return (
         <div className="app-container">
             <div className="app-header">
-                <h1>
-                    2<span className="red" dangerouslySetInnerHTML={{__html: '&Kopf;4'}}></span>8
-                </h1>
+                <div className="logo-container">
+                    <img src="../assets/images/logo.svg" alt="2K48" className="logo"/>
+                </div>
                 <div className="controls-container">
                     <Score label="Score" score={actualScore} />
                     <Score label="Record" score={bestScore} />
-                    <button className="icon-button mute-button" disabled>S</button>
-                    <button className="icon-button restart-button" onClick={handleReset}>R</button>
-                    <button className="icon-button info-button" disabled>I</button>
+                    <button className="icon-button icon-sound-off" disabled onClick={handleToggleSound}></button>
+                    <button className="icon-button icon-reload" onClick={handleReset}></button>
+                    <button className="icon-button icon-settings" disabled></button>
                 </div>
             </div>
             <div className="app-content">

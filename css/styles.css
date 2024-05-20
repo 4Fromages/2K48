@@ -62,8 +62,23 @@ button:disabled {
     opacity: .5;
 }
 button.icon-button {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+    background-position: 50% 50%;
+    background-size: 22px 22px;
+    background-repeat: no-repeat;
+}
+button.icon-button.icon-reload {
+    background-image: url("../assets/icons/reload.svg");
+}
+button.icon-button.icon-sound-on {
+    background-image: url("../assets/icons/sound-on.svg");
+}
+button.icon-button.icon-sound-off {
+    background-image: url("../assets/icons/sound-off.svg");
+}
+button.icon-button.icon-settings {
+    background-image: url("../assets/icons/settings.svg");
 }
 
 .red {
