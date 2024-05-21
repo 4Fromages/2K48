@@ -29,7 +29,7 @@
     display: flex;
     gap: var(--gap);
 
-    padding: var(--gap)
+    padding: var(--gap);
 }
 
 .score-container {
@@ -40,7 +40,7 @@
 
     min-width: 60px;
     flex-grow: 2;
-    
+
     padding: 2px;
 
     border-radius: var(--grid-border-radius);
@@ -48,7 +48,7 @@
 
     background-color: #fff;
 
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 
     user-select: none;
     cursor: default;
@@ -56,7 +56,7 @@
 
 .score-container .score-label {
     position: absolute;
-    
+
     background-color: #fff;
     padding: 2px 5px;
     margin-top: -35px;
@@ -155,7 +155,7 @@
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
     font-size: var(--font-size);
 
-    background: linear-gradient(
+    background-image: linear-gradient(
         145deg,
         var(--primary-background),
         var(--second-background)
@@ -167,11 +167,12 @@
     -webkit-transition: 100ms linear;
     -moz-transition: 100ms linear;
     transition: 100ms linear;
-    -webkit-transition-property: -webkit-transform, visibility;
-    -moz-transition-property: -moz-transform, visibility;
-    transition-property: transform, visibility;
+    -webkit-transition-property: -webkit-transform, visibility, opacity;
+    -moz-transition-property: -moz-transform, visibility, opacity;
+    transition-property: transform, visibility, opacity;
 
     animation: tile-pop 100ms linear;
+    overflow: hidden;
 }
 
 .tile.hidden {
@@ -253,9 +254,57 @@
 .tile.tile-value-2048 {
     --color: #fff;
     --font-size: 25px;
-    --primary-background: #101010;
-    --second-background: #000000;
+    --primary-background: #202020;
+    --second-background: #090909;
     --shadow-color: #000000;
+}
+.tile.tile-value-2048:after {
+    content: "";
+    top: 0;
+    transform: translateX(-200%);
+    rotate: 45deg;
+    opacity: 0;
+    /* rotate: 45deg; */
+    width: calc(var(--case-height) / 4);
+    height: calc(var(--case-height) * 2);
+    position: absolute;
+    z-index: 1;
+    animation: slide 4s ease-in-out 2s infinite normal;
+
+    /* CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/  */
+    background: -moz-linear-gradient(
+        left,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 100%
+    ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(
+        left,
+        rgba(255, 255, 255, .2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    ); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(
+        left,
+        rgba(255, 255, 255, .2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    ); /* Opera 11.10+ */
+    background: -ms-linear-gradient(
+        left,
+        rgba(255, 255, 255, .2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    ); /* IE10+ */
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, .2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    ); /* W3C */
+}
+
+.tile.tile-value-2048 .tile-inner {
+    background-image: url("../assets/images/logo-dark.svg");
+    background-position: 50% 50%;
+    background-size: calc(var(--case-width) - var(--gap) * 2) auto;
+    background-repeat: no-repeat;
+    color: transparent;
 }
 
 .tile.tile-value-4096 {

@@ -100,9 +100,7 @@ function App() {
         })
         if (isSoundOn) pop()
     }
-    const handleGameWon  = () => {
-        setTimeout(() => alert("Gagné"), 500)
-    }
+    const handleGameWon  = () => { /* TODO */}
     const handleGameLost = () => {
         setTimeout(() => alert("Perdu"), 500)
     }

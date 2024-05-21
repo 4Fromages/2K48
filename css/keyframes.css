@@ -10,3 +10,18 @@
         margin: 0;
     }
 }
+
+@keyframes slide {
+    0% {
+        transform: translateX(-400%);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    15%,
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
